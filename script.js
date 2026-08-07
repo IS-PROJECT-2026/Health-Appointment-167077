@@ -107,24 +107,44 @@ function scrollActive() {
 
 function testFirebaseConnection() {
     console.log('Testing Firebase connection...');
+    console.log('Database URL:', firebaseConfig.databaseURL);
     
-    // Reference to doctors in database
-    const doctorsRef = database.ref('doctors');
+    // Reference to root (where doctors are stored)
+    const doctorsRef = database.ref('/');
+    console.log('Fetching doctors from root...');
     
-    // Fetch doctors data to test connection
     doctorsRef.once('value')
         .then((snapshot) => {
-            const doctors = snapshot.val();
-            if (doctors) {
-                const doctorCount = Object.keys(doctors).length;
+            const doctorsData = snapshot.val();
+            console.log('Doctors data:', doctorsData);
+            console.log('Data type:', typeof doctorsData);
+            
+            if (doctorsData && typeof doctorsData === 'object') {
+                // Get all doctor keys (doc1, doc2, etc.)
+                const doctorKeys = Object.keys(doctorsData);
+                const doctorCount = doctorKeys.length;
+                
                 console.log(`✅ Firebase connection successful!`);
                 console.log(`📊 Found ${doctorCount} doctors in database`);
-                console.log('Doctors data:', doctors);
+                console.log('Doctor IDs:', doctorKeys);
+                
+                // Log each doctor's details
+                doctorKeys.forEach((key) => {
+                    const doctor = doctorsData[key];
+                    if (doctor && doctor.name) {
+                        console.log(`${key}: ${doctor.name} - ${doctor.specialty}`);
+                    }
+                });
+                
+                console.log('✅ All doctors loaded successfully!');
             } else {
-                console.log('⚠️ Firebase connected but no doctors found in database');
+                console.log('⚠️ Firebase connected but doctors data is not in expected format');
+                console.log('Data received:', doctorsData);
             }
         })
         .catch((error) => {
             console.error('❌ Firebase connection error:', error);
+            console.error('Error code:', error.code);
+            console.error('Error message:', error.message);
         });
 }
