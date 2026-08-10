@@ -101,37 +101,18 @@
                 
                 <!-- Doctor Cards Container -->
                 <div class="doctors-grid" id="doctors-container">
-                    <!-- Doctor cards will be dynamically inserted here -->
-                    
-                    <!-- Sample Static Card for Styling (will be replaced by dynamic cards) -->
-                    <div class="doctor-card">
-                        <div class="doctor-card__image">
-                            <img src="https://randomuser.me/api/portraits/women/44.jpg" alt="Dr. Sarah Johnson">
-                            <span class="doctor-card__badge">Available</span>
-                        </div>
-                        <div class="doctor-card__content">
-                            <h3 class="doctor-card__name">Dr. Sarah Johnson</h3>
-                            <p class="doctor-card__specialty">Cardiologist</p>
-                            <div class="doctor-card__info">
-                                <div class="doctor-card__info-item">
-                                    <span class="doctor-card__icon">⭐</span>
-                                    <span>4.8 Rating</span>
-                                </div>
-                                <div class="doctor-card__info-item">
-                                    <span class="doctor-card__icon">👥</span>
-                                    <span>2500+ Patients</span>
-                                </div>
-                                <div class="doctor-card__info-item">
-                                    <span class="doctor-card__icon">💼</span>
-                                    <span>15 years exp</span>
-                                </div>
-                            </div>
-                            <div class="doctor-card__footer">
-                                <span class="doctor-card__fees">$150</span>
-                                <button class="btn-card">View Profile</button>
-                            </div>
-                        </div>
-                    </div>
+                    <!-- Doctor cards will be dynamically inserted here by JavaScript -->
+                </div>
+
+                <!-- Loading State -->
+                <div class="loading" id="doctors-loading">
+                    <div class="loading-spinner"></div>
+                    <p>Loading doctors...</p>
+                </div>
+
+                <!-- Empty State -->
+                <div class="empty-state hidden" id="doctors-empty">
+                    <p>⚕️ No doctors available at the moment. Please check back later.</p>
                 </div>
             </div>
         </section>
