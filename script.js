@@ -9,6 +9,28 @@ console.log('Health Appointment System Initialized');
 // Firebase Configuration
 // ===================================
 
+/**
+ * Doctor Data Schema
+ * 
+ * Doctors are stored in Firebase Realtime Database at root level as an object.
+ * Each doctor has a unique key (doc1, doc2, etc.) with the following structure:
+ * 
+ * {
+ *   id: String          - Unique identifier (e.g., "doc1")
+ *   name: String        - Full name with title (e.g., "Dr. Sarah Johnson")
+ *   specialty: String   - Medical specialization (e.g., "Cardiologist")
+ *   experience: String  - Years of practice (e.g., "15 years")
+ *   education: String   - Educational background
+ *   rating: Number      - Patient rating (0-5 scale)
+ *   patients: Number    - Total patients treated
+ *   description: String - Detailed bio and expertise
+ *   photo: String       - Profile photo URL
+ *   available: Boolean  - Current availability status
+ *   fees: String        - Consultation fee (e.g., "$150")
+ *   languages: String   - Languages spoken (comma-separated)
+ * }
+ */
+
 // Firebase configuration object
 const firebaseConfig = {
     apiKey: "AIzaSyC4oPI9yt5ILmfPw0tY2XFmLHvaJQq7rFg",
