@@ -429,6 +429,190 @@ body {
 }
 
 /* ===================================
+   Doctors Section
+   =================================== */
+
+.doctors-section {
+    padding: var(--space-16) 0;
+    background-color: var(--bg-secondary);
+}
+
+.section-header {
+    text-align: center;
+    margin-bottom: var(--space-12);
+}
+
+.section-title {
+    font-size: var(--text-4xl);
+    font-weight: var(--font-bold);
+    color: var(--text-dark);
+    margin-bottom: var(--space-2);
+}
+
+.section-subtitle {
+    font-size: var(--text-lg);
+    color: var(--text-light);
+}
+
+.doctors-grid {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: var(--space-6);
+    margin-top: var(--space-8);
+}
+
+/* ===================================
+   Doctor Card Component
+   =================================== */
+
+.doctor-card {
+    background-color: var(--bg-primary);
+    border-radius: var(--radius-xl);
+    overflow: hidden;
+    box-shadow: var(--shadow-md);
+    transition: all var(--transition-base);
+    cursor: pointer;
+}
+
+.doctor-card:hover {
+    transform: translateY(-8px);
+    box-shadow: var(--shadow-xl);
+}
+
+.doctor-card__image {
+    position: relative;
+    width: 100%;
+    height: 280px;
+    overflow: hidden;
+    background: linear-gradient(135deg, var(--bg-light), var(--border-light));
+}
+
+.doctor-card__image img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: transform var(--transition-slow);
+}
+
+.doctor-card:hover .doctor-card__image img {
+    transform: scale(1.1);
+}
+
+.doctor-card__badge {
+    position: absolute;
+    top: var(--space-4);
+    right: var(--space-4);
+    background-color: var(--success);
+    color: var(--bg-primary);
+    padding: var(--space-1) var(--space-3);
+    border-radius: var(--radius-full);
+    font-size: var(--text-sm);
+    font-weight: var(--font-semibold);
+    box-shadow: var(--shadow-md);
+}
+
+.doctor-card__content {
+    padding: var(--space-6);
+}
+
+.doctor-card__name {
+    font-size: var(--text-2xl);
+    font-weight: var(--font-bold);
+    color: var(--text-dark);
+    margin-bottom: var(--space-1);
+}
+
+.doctor-card__specialty {
+    font-size: var(--text-lg);
+    color: var(--primary-color);
+    font-weight: var(--font-medium);
+    margin-bottom: var(--space-4);
+}
+
+.doctor-card__info {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-3);
+    margin-bottom: var(--space-6);
+    padding: var(--space-4);
+    background-color: var(--bg-light);
+    border-radius: var(--radius-lg);
+}
+
+.doctor-card__info-item {
+    display: flex;
+    align-items: center;
+    gap: var(--space-2);
+    font-size: var(--text-sm);
+    color: var(--text-medium);
+}
+
+.doctor-card__icon {
+    font-size: var(--text-lg);
+}
+
+.doctor-card__footer {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding-top: var(--space-4);
+    border-top: 1px solid var(--border-light);
+}
+
+.doctor-card__fees {
+    font-size: var(--text-2xl);
+    font-weight: var(--font-bold);
+    color: var(--primary-color);
+}
+
+.btn-card {
+    padding: var(--space-3) var(--space-6);
+    background-color: var(--primary-color);
+    color: var(--bg-primary);
+    border: none;
+    border-radius: var(--radius-lg);
+    font-weight: var(--font-semibold);
+    cursor: pointer;
+    transition: all var(--transition-base);
+}
+
+.btn-card:hover {
+    background-color: var(--primary-dark);
+    transform: translateX(4px);
+}
+
+/* Loading State */
+.loading {
+    text-align: center;
+    padding: var(--space-12) 0;
+}
+
+.loading-spinner {
+    width: 48px;
+    height: 48px;
+    border: 4px solid var(--border-light);
+    border-top-color: var(--primary-color);
+    border-radius: var(--radius-full);
+    animation: spin 1s linear infinite;
+    margin: 0 auto var(--space-4);
+}
+
+@keyframes spin {
+    to { transform: rotate(360deg); }
+}
+
+/* Empty State */
+.empty-state {
+    text-align: center;
+    padding: var(--space-12) 0;
+    color: var(--text-light);
+}
+
+.hidden {
+    display: none;
+}
+
+/* ===================================
    Footer
    =================================== */
 
@@ -680,6 +864,17 @@ body {
         font-size: 10rem;
     }
 
+    /* Doctors Grid - Tablet */
+    .doctors-grid {
+        grid-template-columns: repeat(2, 1fr);
+        gap: var(--space-8);
+    }
+
+    .doctor-card__info {
+        flex-direction: row;
+        justify-content: space-around;
+    }
+
     /* Footer - Tablet/Desktop */
     .footer__content {
         grid-template-columns: 2fr 1fr 1.5fr 1fr;
@@ -707,6 +902,12 @@ body {
 
     .hero__description {
         font-size: 1.25rem;
+    }
+
+    /* Doctors Grid - Desktop (3 columns) */
+    .doctors-grid {
+        grid-template-columns: repeat(3, 1fr);
+        gap: var(--space-10);
     }
 }
 
