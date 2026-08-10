@@ -58,8 +58,8 @@ document.addEventListener('DOMContentLoaded', function() {
     // Initialize navigation
     initNavigation();
     
-    // Test Firebase connection
-    testFirebaseConnection();
+    // Load doctors from Firebase
+    loadDoctors();
 });
 
 // ===================================
@@ -124,49 +124,141 @@ function scrollActive() {
 }
 
 // ===================================
-// Firebase Connection Test
+// Load and Display Doctors
 // ===================================
 
-function testFirebaseConnection() {
-    console.log('Testing Firebase connection...');
-    console.log('Database URL:', firebaseConfig.databaseURL);
+function loadDoctors() {
+    console.log('Loading doctors from Firebase...');
     
-    // Reference to root (where doctors are stored)
+    const doctorsContainer = document.getElementById('doctors-container');
+    const loadingElement = document.getElementById('doctors-loading');
+    const emptyElement = document.getElementById('doctors-empty');
+    
+    // Show loading state
+    loadingElement.classList.remove('hidden');
+    doctorsContainer.classList.add('hidden');
+    emptyElement.classList.add('hidden');
+    
+    // Reference to doctors in Firebase (at root level)
     const doctorsRef = database.ref('/');
-    console.log('Fetching doctors from root...');
     
     doctorsRef.once('value')
         .then((snapshot) => {
             const doctorsData = snapshot.val();
-            console.log('Doctors data:', doctorsData);
-            console.log('Data type:', typeof doctorsData);
+            
+            // Hide loading
+            loadingElement.classList.add('hidden');
             
             if (doctorsData && typeof doctorsData === 'object') {
-                // Get all doctor keys (doc1, doc2, etc.)
                 const doctorKeys = Object.keys(doctorsData);
-                const doctorCount = doctorKeys.length;
                 
-                console.log(`✅ Firebase connection successful!`);
-                console.log(`📊 Found ${doctorCount} doctors in database`);
-                console.log('Doctor IDs:', doctorKeys);
-                
-                // Log each doctor's details
-                doctorKeys.forEach((key) => {
-                    const doctor = doctorsData[key];
-                    if (doctor && doctor.name) {
-                        console.log(`${key}: ${doctor.name} - ${doctor.specialty}`);
-                    }
-                });
-                
-                console.log('✅ All doctors loaded successfully!');
+                if (doctorKeys.length > 0) {
+                    // Show container
+                    doctorsContainer.classList.remove('hidden');
+                    
+                    // Clear existing cards
+                    doctorsContainer.innerHTML = '';
+                    
+                    // Create card for each doctor
+                    doctorKeys.forEach((key) => {
+                        const doctor = doctorsData[key];
+                        if (doctor && doctor.name) {
+                            const card = createDoctorCard(doctor);
+                            doctorsContainer.appendChild(card);
+                        }
+                    });
+                    
+                    console.log(`✅ Successfully loaded ${doctorKeys.length} doctors`);
+                } else {
+                    // Show empty state
+                    emptyElement.classList.remove('hidden');
+                    console.log('No doctors found in database');
+                }
             } else {
-                console.log('⚠️ Firebase connected but doctors data is not in expected format');
-                console.log('Data received:', doctorsData);
+                // Show empty state
+                emptyElement.classList.remove('hidden');
+                console.log('Invalid data format from Firebase');
             }
         })
         .catch((error) => {
-            console.error('❌ Firebase connection error:', error);
-            console.error('Error code:', error.code);
-            console.error('Error message:', error.message);
+            // Hide loading
+            loadingElement.classList.add('hidden');
+            
+            // Show error message
+            doctorsContainer.innerHTML = `
+                <div class="error-state">
+                    <p>❌ Error loading doctors: ${error.message}</p>
+                    <button onclick="loadDoctors()" class="btn-card">Retry</button>
+                </div>
+            `;
+            doctorsContainer.classList.remove('hidden');
+            
+            console.error('Error loading doctors:', error);
         });
+}
+
+// ===================================
+// Create Doctor Card Element
+// ===================================
+
+function createDoctorCard(doctor) {
+    const card = document.createElement('div');
+    card.className = 'doctor-card';
+    card.setAttribute('data-doctor-id', doctor.id);
+    
+    // Build card HTML
+    card.innerHTML = `
+        <div class="doctor-card__image">
+            <img src="${doctor.photo || 'https://via.placeholder.com/300x280?text=Doctor'}" 
+                 alt="${doctor.name}"
+                 onerror="this.src='https://via.placeholder.com/300x280?text=Doctor'">
+            <span class="doctor-card__badge ${doctor.available ? '' : 'unavailable'}">
+                ${doctor.available ? 'Available' : 'Unavailable'}
+            </span>
+        </div>
+        <div class="doctor-card__content">
+            <h3 class="doctor-card__name">${doctor.name}</h3>
+            <p class="doctor-card__specialty">${doctor.specialty}</p>
+            <div class="doctor-card__info">
+                <div class="doctor-card__info-item">
+                    <span class="doctor-card__icon">⭐</span>
+                    <span>${doctor.rating || 'N/A'} Rating</span>
+                </div>
+                <div class="doctor-card__info-item">
+                    <span class="doctor-card__icon">👥</span>
+                    <span>${formatNumber(doctor.patients)}+ Patients</span>
+                </div>
+                <div class="doctor-card__info-item">
+                    <span class="doctor-card__icon">💼</span>
+                    <span>${doctor.experience || 'N/A'}</span>
+                </div>
+            </div>
+            <div class="doctor-card__footer">
+                <span class="doctor-card__fees">${doctor.fees || 'Contact'}</span>
+                <button class="btn-card" onclick="viewDoctorProfile('${doctor.id}')">
+                    View Profile
+                </button>
+            </div>
+        </div>
+    `;
+    
+    return card;
+}
+
+// ===================================
+// Helper Functions
+// ===================================
+
+function formatNumber(num) {
+    if (!num) return '0';
+    if (num >= 1000) {
+        return (num / 1000).toFixed(1) + 'k';
+    }
+    return num.toString();
+}
+
+function viewDoctorProfile(doctorId) {
+    console.log('View profile for doctor:', doctorId);
+    // This will be implemented in Issue #10 (Doctor Modal)
+    alert(`Doctor profile modal coming in Issue #10!\nDoctor ID: ${doctorId}`);
 }

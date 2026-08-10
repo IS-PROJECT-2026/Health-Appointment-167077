@@ -511,6 +511,10 @@ body {
     box-shadow: var(--shadow-md);
 }
 
+.doctor-card__badge.unavailable {
+    background-color: var(--text-light);
+}
+
 .doctor-card__content {
     padding: var(--space-6);
 }
