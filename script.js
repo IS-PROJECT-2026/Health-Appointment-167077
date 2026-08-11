@@ -258,7 +258,161 @@ function formatNumber(num) {
 }
 
 function viewDoctorProfile(doctorId) {
-    console.log('View profile for doctor:', doctorId);
-    // This will be implemented in Issue #10 (Doctor Modal)
-    alert(`Doctor profile modal coming in Issue #10!\nDoctor ID: ${doctorId}`);
+    console.log('Opening profile for doctor:', doctorId);
+    
+    // Fetch doctor data from Firebase
+    const doctorRef = database.ref(`/${doctorId}`);
+    
+    doctorRef.once('value')
+        .then((snapshot) => {
+            const doctor = snapshot.val();
+            if (doctor) {
+                showDoctorModal(doctor);
+            } else {
+                alert('Doctor not found');
+            }
+        })
+        .catch((error) => {
+            console.error('Error fetching doctor:', error);
+            alert('Error loading doctor details');
+        });
 }
+
+// ===================================
+// Doctor Modal Functions
+// ===================================
+
+function showDoctorModal(doctor) {
+    const modalOverlay = document.getElementById('doctor-modal-overlay');
+    const modalContent = document.getElementById('modal-content');
+    
+    // Build modal content
+    modalContent.innerHTML = `
+        <div class="modal__header">
+            <img src="${doctor.photo || 'https://via.placeholder.com/250?text=Doctor'}" 
+                 alt="${doctor.name}"
+                 class="modal__doctor-image"
+                 onerror="this.src='https://via.placeholder.com/250?text=Doctor'">
+            <div class="modal__doctor-info">
+                <h2 class="modal__doctor-name">${doctor.name}</h2>
+                <p class="modal__doctor-specialty">${doctor.specialty}</p>
+                <div class="modal__stats">
+                    <div class="modal__stat">
+                        <span class="modal__stat-icon">⭐</span>
+                        <span class="modal__stat-value">${doctor.rating || 'N/A'}</span>
+                        <span class="modal__stat-label">Rating</span>
+                    </div>
+                    <div class="modal__stat">
+                        <span class="modal__stat-icon">👥</span>
+                        <span class="modal__stat-value">${formatNumber(doctor.patients)}+</span>
+                        <span class="modal__stat-label">Patients</span>
+                    </div>
+                    <div class="modal__stat">
+                        <span class="modal__stat-icon">💼</span>
+                        <span class="modal__stat-value">${doctor.experience}</span>
+                        <span class="modal__stat-label">Experience</span>
+                    </div>
+                    <div class="modal__stat">
+                        <span class="modal__stat-icon">💰</span>
+                        <span class="modal__stat-value">${doctor.fees}</span>
+                        <span class="modal__stat-label">Consultation</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="modal__section">
+            <h3 class="modal__section-title">
+                <span class="modal__section-icon">📋</span>
+                About
+            </h3>
+            <p class="modal__description">${doctor.description || 'No description available.'}</p>
+        </div>
+
+        <div class="modal__section">
+            <h3 class="modal__section-title">
+                <span class="modal__section-icon">ℹ️</span>
+                Details
+            </h3>
+            <div class="modal__details">
+                <div class="modal__detail-item">
+                    <span class="modal__detail-icon">🎓</span>
+                    <div class="modal__detail-content">
+                        <div class="modal__detail-label">Education</div>
+                        <div class="modal__detail-value">${doctor.education || 'Not specified'}</div>
+                    </div>
+                </div>
+                <div class="modal__detail-item">
+                    <span class="modal__detail-icon">🗣️</span>
+                    <div class="modal__detail-content">
+                        <div class="modal__detail-label">Languages</div>
+                        <div class="modal__detail-value">${doctor.languages || 'Not specified'}</div>
+                    </div>
+                </div>
+                <div class="modal__detail-item">
+                    <span class="modal__detail-icon">${doctor.available ? '✅' : '❌'}</span>
+                    <div class="modal__detail-content">
+                        <div class="modal__detail-label">Availability</div>
+                        <div class="modal__detail-value">${doctor.available ? 'Currently Available' : 'Not Available'}</div>
+                    </div>
+                </div>
+                <div class="modal__detail-item">
+                    <span class="modal__detail-icon">🆔</span>
+                    <div class="modal__detail-content">
+                        <div class="modal__detail-label">Doctor ID</div>
+                        <div class="modal__detail-value">${doctor.id}</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="modal__actions">
+            <button class="btn btn-primary" onclick="bookAppointment('${doctor.id}')">
+                📅 Book Appointment
+            </button>
+            <button class="btn btn-outline" onclick="closeModal()">
+                Close
+            </button>
+        </div>
+    `;
+    
+    // Show modal with animation
+    modalOverlay.classList.add('active');
+    document.body.style.overflow = 'hidden'; // Prevent background scroll
+}
+
+function closeModal() {
+    const modalOverlay = document.getElementById('doctor-modal-overlay');
+    modalOverlay.classList.remove('active');
+    document.body.style.overflow = ''; // Restore scroll
+}
+
+function bookAppointment(doctorId) {
+    console.log('Book appointment with doctor:', doctorId);
+    // This will be implemented in Issue #11 (Booking Form)
+    alert(`Appointment booking coming in Issue #11!\nDoctor ID: ${doctorId}`);
+    closeModal();
+}
+
+// Close modal when clicking overlay
+document.addEventListener('DOMContentLoaded', function() {
+    const modalOverlay = document.getElementById('doctor-modal-overlay');
+    const modalClose = document.getElementById('modal-close');
+    
+    // Close on overlay click
+    modalOverlay.addEventListener('click', function(e) {
+        if (e.target === modalOverlay) {
+            closeModal();
+        }
+    });
+    
+    // Close on X button click
+    modalClose.addEventListener('click', closeModal);
+    
+    // Close on ESC key
+    document.addEventListener('keydown', function(e) {
+        if (e.key === 'Escape' && modalOverlay.classList.contains('active')) {
+            closeModal();
+        }
+    });
+});
