@@ -617,6 +617,212 @@ body {
 }
 
 /* ===================================
+   Doctor Detail Modal
+   =================================== */
+
+.modal-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.7);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: var(--z-modal);
+    opacity: 0;
+    visibility: hidden;
+    transition: all var(--transition-base);
+}
+
+.modal-overlay.active {
+    opacity: 1;
+    visibility: visible;
+}
+
+.modal {
+    background-color: var(--bg-primary);
+    border-radius: var(--radius-2xl);
+    max-width: 900px;
+    width: 90%;
+    max-height: 90vh;
+    overflow-y: auto;
+    position: relative;
+    transform: scale(0.7);
+    transition: transform var(--transition-base);
+    box-shadow: var(--shadow-2xl);
+}
+
+.modal-overlay.active .modal {
+    transform: scale(1);
+}
+
+.modal__close {
+    position: absolute;
+    top: var(--space-4);
+    right: var(--space-4);
+    width: 40px;
+    height: 40px;
+    border-radius: var(--radius-full);
+    background-color: var(--bg-light);
+    border: none;
+    font-size: var(--text-3xl);
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: all var(--transition-fast);
+    z-index: 10;
+}
+
+.modal__close:hover {
+    background-color: var(--error);
+    color: var(--bg-primary);
+    transform: rotate(90deg);
+}
+
+.modal__content {
+    padding: var(--space-8);
+}
+
+.modal__header {
+    display: grid;
+    gap: var(--space-6);
+    margin-bottom: var(--space-8);
+}
+
+.modal__doctor-image {
+    width: 200px;
+    height: 200px;
+    border-radius: var(--radius-2xl);
+    object-fit: cover;
+    margin: 0 auto;
+    box-shadow: var(--shadow-lg);
+}
+
+.modal__doctor-info {
+    text-align: center;
+}
+
+.modal__doctor-name {
+    font-size: var(--text-4xl);
+    font-weight: var(--font-bold);
+    color: var(--text-dark);
+    margin-bottom: var(--space-2);
+}
+
+.modal__doctor-specialty {
+    font-size: var(--text-2xl);
+    color: var(--primary-color);
+    font-weight: var(--font-semibold);
+    margin-bottom: var(--space-4);
+}
+
+.modal__stats {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
+    gap: var(--space-4);
+    padding: var(--space-6);
+    background-color: var(--bg-light);
+    border-radius: var(--radius-xl);
+}
+
+.modal__stat {
+    text-align: center;
+}
+
+.modal__stat-icon {
+    font-size: var(--text-3xl);
+    margin-bottom: var(--space-2);
+}
+
+.modal__stat-value {
+    font-size: var(--text-xl);
+    font-weight: var(--font-bold);
+    color: var(--text-dark);
+    display: block;
+}
+
+.modal__stat-label {
+    font-size: var(--text-sm);
+    color: var(--text-light);
+}
+
+.modal__section {
+    margin-bottom: var(--space-8);
+}
+
+.modal__section-title {
+    font-size: var(--text-2xl);
+    font-weight: var(--font-semibold);
+    color: var(--text-dark);
+    margin-bottom: var(--space-4);
+    display: flex;
+    align-items: center;
+    gap: var(--space-2);
+}
+
+.modal__section-icon {
+    font-size: var(--text-2xl);
+}
+
+.modal__description {
+    font-size: var(--text-base);
+    line-height: var(--leading-relaxed);
+    color: var(--text-medium);
+    margin-bottom: var(--space-4);
+}
+
+.modal__details {
+    display: grid;
+    gap: var(--space-4);
+}
+
+.modal__detail-item {
+    display: flex;
+    align-items: flex-start;
+    gap: var(--space-3);
+    padding: var(--space-4);
+    background-color: var(--bg-secondary);
+    border-radius: var(--radius-lg);
+}
+
+.modal__detail-icon {
+    font-size: var(--text-xl);
+    flex-shrink: 0;
+}
+
+.modal__detail-content {
+    flex: 1;
+}
+
+.modal__detail-label {
+    font-size: var(--text-sm);
+    color: var(--text-light);
+    margin-bottom: var(--space-1);
+}
+
+.modal__detail-value {
+    font-size: var(--text-base);
+    color: var(--text-dark);
+    font-weight: var(--font-medium);
+}
+
+.modal__actions {
+    display: flex;
+    gap: var(--space-4);
+    margin-top: var(--space-8);
+    padding-top: var(--space-6);
+    border-top: 1px solid var(--border-light);
+}
+
+.modal__actions .btn {
+    flex: 1;
+    justify-content: center;
+}
+
+/* ===================================
    Footer
    =================================== */
 
@@ -912,6 +1118,24 @@ body {
     .doctors-grid {
         grid-template-columns: repeat(3, 1fr);
         gap: var(--space-10);
+    }
+
+    /* Modal - Desktop */
+    .modal__header {
+        grid-template-columns: 250px 1fr;
+        text-align: left;
+    }
+
+    .modal__doctor-image {
+        margin: 0;
+    }
+
+    .modal__doctor-info {
+        text-align: left;
+    }
+
+    .modal__details {
+        grid-template-columns: repeat(2, 1fr);
     }
 }
 
