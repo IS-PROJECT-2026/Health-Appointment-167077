@@ -388,31 +388,115 @@ function closeModal() {
 }
 
 function bookAppointment(doctorId) {
-    console.log('Book appointment with doctor:', doctorId);
-    // This will be implemented in Issue #11 (Booking Form)
-    alert(`Appointment booking coming in Issue #11!\nDoctor ID: ${doctorId}`);
+    console.log('Opening booking form for doctor:', doctorId);
+    
+    // Close doctor modal first
     closeModal();
+    
+    // Fetch doctor data to show in booking form
+    const doctorRef = database.ref(`/${doctorId}`);
+    
+    doctorRef.once('value')
+        .then((snapshot) => {
+            const doctor = snapshot.val();
+            if (doctor) {
+                showBookingModal(doctor);
+            } else {
+                alert('Doctor not found');
+            }
+        })
+        .catch((error) => {
+            console.error('Error fetching doctor for booking:', error);
+            alert('Error loading booking form');
+        });
+}
+
+// ===================================
+// Booking Form Functions
+// ===================================
+
+function showBookingModal(doctor) {
+    const bookingModalOverlay = document.getElementById('booking-modal-overlay');
+    const bookingDoctorName = document.getElementById('booking-doctor-name');
+    const bookingDoctorId = document.getElementById('booking-doctor-id');
+    const appointmentDate = document.getElementById('appointment-date');
+    
+    // Set doctor information
+    bookingDoctorName.textContent = `Booking appointment with ${doctor.name} - ${doctor.specialty}`;
+    bookingDoctorId.value = doctor.id;
+    
+    // Set minimum date to today
+    const today = new Date().toISOString().split('T')[0];
+    appointmentDate.setAttribute('min', today);
+    
+    // Show modal
+    bookingModalOverlay.classList.add('active');
+    document.body.style.overflow = 'hidden';
+}
+
+function closeBookingModal() {
+    const bookingModalOverlay = document.getElementById('booking-modal-overlay');
+    const bookingForm = document.getElementById('booking-form');
+    
+    bookingModalOverlay.classList.remove('active');
+    document.body.style.overflow = '';
+    
+    // Reset form
+    bookingForm.reset();
+    clearFormErrors();
+}
+
+function clearFormErrors() {
+    const errorElements = document.querySelectorAll('.form-error');
+    errorElements.forEach(el => el.textContent = '');
+    
+    const inputElements = document.querySelectorAll('.form-input');
+    inputElements.forEach(el => el.classList.remove('error'));
 }
 
 // Close modal when clicking overlay
 document.addEventListener('DOMContentLoaded', function() {
     const modalOverlay = document.getElementById('doctor-modal-overlay');
     const modalClose = document.getElementById('modal-close');
+    const bookingModalOverlay = document.getElementById('booking-modal-overlay');
+    const bookingModalClose = document.getElementById('booking-modal-close');
     
-    // Close on overlay click
+    // Close doctor modal on overlay click
     modalOverlay.addEventListener('click', function(e) {
         if (e.target === modalOverlay) {
             closeModal();
         }
     });
     
-    // Close on X button click
+    // Close doctor modal on X button click
     modalClose.addEventListener('click', closeModal);
     
-    // Close on ESC key
-    document.addEventListener('keydown', function(e) {
-        if (e.key === 'Escape' && modalOverlay.classList.contains('active')) {
-            closeModal();
+    // Close booking modal on overlay click
+    bookingModalOverlay.addEventListener('click', function(e) {
+        if (e.target === bookingModalOverlay) {
+            closeBookingModal();
         }
+    });
+    
+    // Close booking modal on X button click
+    bookingModalClose.addEventListener('click', closeBookingModal);
+    
+    // Close modals on ESC key
+    document.addEventListener('keydown', function(e) {
+        if (e.key === 'Escape') {
+            if (bookingModalOverlay.classList.contains('active')) {
+                closeBookingModal();
+            } else if (modalOverlay.classList.contains('active')) {
+                closeModal();
+            }
+        }
+    });
+    
+    // Handle booking form submission (will be completed in Issue #12 with validation)
+    const bookingForm = document.getElementById('booking-form');
+    bookingForm.addEventListener('submit', function(e) {
+        e.preventDefault();
+        console.log('Form submitted - validation will be added in Issue #12');
+        alert('Form validation and submission will be implemented in Issue #12!');
     });
 });

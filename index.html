@@ -227,6 +227,140 @@
         </div>
     </div>
 
+    <!-- Appointment Booking Modal -->
+    <div class="modal-overlay" id="booking-modal-overlay">
+        <div class="modal" id="booking-modal">
+            <button class="modal__close" id="booking-modal-close" aria-label="Close booking modal">
+                <span>&times;</span>
+            </button>
+            
+            <div class="modal__content">
+                <h2 class="booking-form__title">📅 Book an Appointment</h2>
+                <p class="booking-form__subtitle" id="booking-doctor-name">Select your preferred date and time</p>
+                
+                <form class="booking-form" id="booking-form">
+                    <!-- Doctor ID (hidden) -->
+                    <input type="hidden" id="booking-doctor-id" name="doctorId">
+                    
+                    <!-- Patient Information -->
+                    <div class="form-section">
+                        <h3 class="form-section__title">Patient Information</h3>
+                        
+                        <div class="form-group">
+                            <label for="patient-name" class="form-label">
+                                Full Name <span class="required">*</span>
+                            </label>
+                            <input 
+                                type="text" 
+                                id="patient-name" 
+                                name="patientName" 
+                                class="form-input" 
+                                placeholder="Enter your full name"
+                                required>
+                            <span class="form-error" id="patient-name-error"></span>
+                        </div>
+
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label for="patient-email" class="form-label">
+                                    Email Address <span class="required">*</span>
+                                </label>
+                                <input 
+                                    type="email" 
+                                    id="patient-email" 
+                                    name="patientEmail" 
+                                    class="form-input" 
+                                    placeholder="your.email@example.com"
+                                    required>
+                                <span class="form-error" id="patient-email-error"></span>
+                            </div>
+
+                            <div class="form-group">
+                                <label for="patient-phone" class="form-label">
+                                    Phone Number <span class="required">*</span>
+                                </label>
+                                <input 
+                                    type="tel" 
+                                    id="patient-phone" 
+                                    name="patientPhone" 
+                                    class="form-input" 
+                                    placeholder="(555) 123-4567"
+                                    required>
+                                <span class="form-error" id="patient-phone-error"></span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Appointment Details -->
+                    <div class="form-section">
+                        <h3 class="form-section__title">Appointment Details</h3>
+                        
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label for="appointment-date" class="form-label">
+                                    Preferred Date <span class="required">*</span>
+                                </label>
+                                <input 
+                                    type="date" 
+                                    id="appointment-date" 
+                                    name="appointmentDate" 
+                                    class="form-input"
+                                    required>
+                                <span class="form-error" id="appointment-date-error"></span>
+                            </div>
+
+                            <div class="form-group">
+                                <label for="appointment-time" class="form-label">
+                                    Preferred Time <span class="required">*</span>
+                                </label>
+                                <select 
+                                    id="appointment-time" 
+                                    name="appointmentTime" 
+                                    class="form-input"
+                                    required>
+                                    <option value="">Select time</option>
+                                    <option value="09:00">09:00 AM</option>
+                                    <option value="10:00">10:00 AM</option>
+                                    <option value="11:00">11:00 AM</option>
+                                    <option value="12:00">12:00 PM</option>
+                                    <option value="14:00">02:00 PM</option>
+                                    <option value="15:00">03:00 PM</option>
+                                    <option value="16:00">04:00 PM</option>
+                                    <option value="17:00">05:00 PM</option>
+                                </select>
+                                <span class="form-error" id="appointment-time-error"></span>
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="appointment-reason" class="form-label">
+                                Reason for Visit <span class="required">*</span>
+                            </label>
+                            <textarea 
+                                id="appointment-reason" 
+                                name="appointmentReason" 
+                                class="form-input form-textarea" 
+                                rows="4"
+                                placeholder="Please describe your symptoms or reason for consultation"
+                                required></textarea>
+                            <span class="form-error" id="appointment-reason-error"></span>
+                        </div>
+                    </div>
+
+                    <!-- Form Actions -->
+                    <div class="form-actions">
+                        <button type="button" class="btn btn-outline" onclick="closeBookingModal()">
+                            Cancel
+                        </button>
+                        <button type="submit" class="btn btn-primary" id="submit-booking">
+                            Confirm Booking
+                        </button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
     <script src="script.js"></script>
 </body>
 </html>
