@@ -454,6 +454,175 @@ function clearFormErrors() {
     inputElements.forEach(el => el.classList.remove('error'));
 }
 
+// ===================================
+// Form Validation Functions
+// ===================================
+
+function validateEmail(email) {
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    return emailRegex.test(email);
+}
+
+function validatePhone(phone) {
+    // Remove all non-digit characters
+    const cleaned = phone.replace(/\D/g, '');
+    // Check if it's 10 digits
+    return cleaned.length === 10;
+}
+
+function validateDate(dateString) {
+    const selectedDate = new Date(dateString);
+    const today = new Date();
+    today.setHours(0, 0, 0, 0);
+    
+    return selectedDate >= today;
+}
+
+function showError(fieldId, message) {
+    const errorElement = document.getElementById(`${fieldId}-error`);
+    const inputElement = document.getElementById(fieldId);
+    
+    if (errorElement) {
+        errorElement.textContent = message;
+    }
+    if (inputElement) {
+        inputElement.classList.add('error');
+    }
+}
+
+function clearError(fieldId) {
+    const errorElement = document.getElementById(`${fieldId}-error`);
+    const inputElement = document.getElementById(fieldId);
+    
+    if (errorElement) {
+        errorElement.textContent = '';
+    }
+    if (inputElement) {
+        inputElement.classList.remove('error');
+    }
+}
+
+function validateBookingForm() {
+    let isValid = true;
+    
+    // Clear all previous errors
+    clearFormErrors();
+    
+    // Get form values
+    const patientName = document.getElementById('patient-name').value.trim();
+    const patientEmail = document.getElementById('patient-email').value.trim();
+    const patientPhone = document.getElementById('patient-phone').value.trim();
+    const appointmentDate = document.getElementById('appointment-date').value;
+    const appointmentTime = document.getElementById('appointment-time').value;
+    const appointmentReason = document.getElementById('appointment-reason').value.trim();
+    
+    // Validate patient name
+    if (!patientName) {
+        showError('patient-name', 'Please enter your full name');
+        isValid = false;
+    } else if (patientName.length < 2) {
+        showError('patient-name', 'Name must be at least 2 characters long');
+        isValid = false;
+    }
+    
+    // Validate email
+    if (!patientEmail) {
+        showError('patient-email', 'Please enter your email address');
+        isValid = false;
+    } else if (!validateEmail(patientEmail)) {
+        showError('patient-email', 'Please enter a valid email address');
+        isValid = false;
+    }
+    
+    // Validate phone
+    if (!patientPhone) {
+        showError('patient-phone', 'Please enter your phone number');
+        isValid = false;
+    } else if (!validatePhone(patientPhone)) {
+        showError('patient-phone', 'Please enter a valid 10-digit phone number');
+        isValid = false;
+    }
+    
+    // Validate date
+    if (!appointmentDate) {
+        showError('appointment-date', 'Please select an appointment date');
+        isValid = false;
+    } else if (!validateDate(appointmentDate)) {
+        showError('appointment-date', 'Please select a future date');
+        isValid = false;
+    }
+    
+    // Validate time
+    if (!appointmentTime) {
+        showError('appointment-time', 'Please select an appointment time');
+        isValid = false;
+    }
+    
+    // Validate reason
+    if (!appointmentReason) {
+        showError('appointment-reason', 'Please provide a reason for your visit');
+        isValid = false;
+    } else if (appointmentReason.length < 10) {
+        showError('appointment-reason', 'Please provide more details (at least 10 characters)');
+        isValid = false;
+    }
+    
+    return isValid;
+}
+
+// ===================================
+// Real-time Validation (on blur)
+// ===================================
+
+function setupFieldValidation() {
+    // Name validation
+    document.getElementById('patient-name').addEventListener('blur', function() {
+        const value = this.value.trim();
+        if (value && value.length >= 2) {
+            clearError('patient-name');
+        }
+    });
+    
+    // Email validation
+    document.getElementById('patient-email').addEventListener('blur', function() {
+        const value = this.value.trim();
+        if (value && validateEmail(value)) {
+            clearError('patient-email');
+        }
+    });
+    
+    // Phone validation
+    document.getElementById('patient-phone').addEventListener('blur', function() {
+        const value = this.value.trim();
+        if (value && validatePhone(value)) {
+            clearError('patient-phone');
+        }
+    });
+    
+    // Date validation
+    document.getElementById('appointment-date').addEventListener('change', function() {
+        const value = this.value;
+        if (value && validateDate(value)) {
+            clearError('appointment-date');
+        }
+    });
+    
+    // Time validation
+    document.getElementById('appointment-time').addEventListener('change', function() {
+        if (this.value) {
+            clearError('appointment-time');
+        }
+    });
+    
+    // Reason validation
+    document.getElementById('appointment-reason').addEventListener('blur', function() {
+        const value = this.value.trim();
+        if (value && value.length >= 10) {
+            clearError('appointment-reason');
+        }
+    });
+}
+
 // Close modal when clicking overlay
 document.addEventListener('DOMContentLoaded', function() {
     const modalOverlay = document.getElementById('doctor-modal-overlay');
@@ -492,11 +661,44 @@ document.addEventListener('DOMContentLoaded', function() {
         }
     });
     
-    // Handle booking form submission (will be completed in Issue #12 with validation)
+    // Handle booking form submission
     const bookingForm = document.getElementById('booking-form');
     bookingForm.addEventListener('submit', function(e) {
         e.preventDefault();
-        console.log('Form submitted - validation will be added in Issue #12');
-        alert('Form validation and submission will be implemented in Issue #12!');
+        
+        console.log('Form submitted, validating...');
+        
+        // Validate form
+        if (validateBookingForm()) {
+            console.log('✅ Form is valid!');
+            
+            // Get form data
+            const formData = {
+                doctorId: document.getElementById('booking-doctor-id').value,
+                patientName: document.getElementById('patient-name').value.trim(),
+                patientEmail: document.getElementById('patient-email').value.trim(),
+                patientPhone: document.getElementById('patient-phone').value.trim(),
+                appointmentDate: document.getElementById('appointment-date').value,
+                appointmentTime: document.getElementById('appointment-time').value,
+                appointmentReason: document.getElementById('appointment-reason').value.trim(),
+                timestamp: Date.now()
+            };
+            
+            console.log('Form data:', formData);
+            
+            // This will be implemented in Issue #13 (Save to Firebase)
+            alert('✅ Form validation successful!\n\nData will be saved to Firebase in Issue #13.\n\nYour appointment details:\n' +
+                  `Doctor ID: ${formData.doctorId}\n` +
+                  `Name: ${formData.patientName}\n` +
+                  `Email: ${formData.patientEmail}\n` +
+                  `Phone: ${formData.patientPhone}\n` +
+                  `Date: ${formData.appointmentDate}\n` +
+                  `Time: ${formData.appointmentTime}`);
+        } else {
+            console.log('❌ Form has errors');
+        }
     });
+    
+    // Setup real-time field validation
+    setupFieldValidation();
 });
