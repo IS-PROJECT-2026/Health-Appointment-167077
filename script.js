@@ -616,13 +616,8 @@ function saveAppointment(appointmentData) {
             // Close booking modal
             closeBookingModal();
             
-            // This will be implemented in Issue #14 (Show confirmation)
-            alert('✅ Appointment Booked Successfully!\n\n' +
-                  `Appointment ID: ${newAppointmentRef.key}\n` +
-                  `Patient: ${appointmentData.patientName}\n` +
-                  `Date: ${appointmentData.appointmentDate}\n` +
-                  `Time: ${appointmentData.appointmentTime}\n\n` +
-                  'You will receive a confirmation email shortly.');
+            // Show confirmation modal with appointment details
+            showConfirmationModal(appointmentWithId);
             
             // Reset form
             document.getElementById('booking-form').reset();
@@ -768,4 +763,204 @@ document.addEventListener('DOMContentLoaded', function() {
     
     // Setup real-time field validation
     setupFieldValidation();
+    
+    // Setup confirmation modal close handlers
+    const confirmationModalOverlay = document.getElementById('confirmation-modal-overlay');
+    const confirmationModalClose = document.getElementById('confirmation-modal-close');
+    
+    // Close confirmation modal on overlay click
+    confirmationModalOverlay.addEventListener('click', function(e) {
+        if (e.target === confirmationModalOverlay) {
+            closeConfirmationModal();
+        }
+    });
+    
+    // Close confirmation modal on X button click
+    confirmationModalClose.addEventListener('click', closeConfirmationModal);
+    
+    // Update ESC key handler to include confirmation modal
+    const originalKeydownHandler = document.onkeydown;
+    document.addEventListener('keydown', function(e) {
+        if (e.key === 'Escape') {
+            if (confirmationModalOverlay.classList.contains('active')) {
+                closeConfirmationModal();
+            } else if (bookingModalOverlay.classList.contains('active')) {
+                closeBookingModal();
+            } else if (modalOverlay.classList.contains('active')) {
+                closeModal();
+            }
+        }
+    });
 });
+
+// ===================================
+// Confirmation Modal Functions
+// ===================================
+
+/**
+ * Show confirmation modal with appointment details
+ * @param {Object} appointmentData - The saved appointment data
+ */
+function showConfirmationModal(appointmentData) {
+    const confirmationModalOverlay = document.getElementById('confirmation-modal-overlay');
+    const confirmationDetails = document.getElementById('confirmation-details');
+    
+    // Fetch doctor name from Firebase
+    const doctorRef = database.ref(`/${appointmentData.doctorId}`);
+    
+    doctorRef.once('value')
+        .then((snapshot) => {
+            const doctor = snapshot.val();
+            const doctorName = doctor ? doctor.name : 'Unknown Doctor';
+            const doctorSpecialty = doctor ? doctor.specialty : '';
+            
+            // Format date
+            const appointmentDate = new Date(appointmentData.appointmentDate);
+            const formattedDate = appointmentDate.toLocaleDateString('en-US', {
+                weekday: 'long',
+                year: 'numeric',
+                month: 'long',
+                day: 'numeric'
+            });
+            
+            // Format time (convert 24h to 12h format)
+            const timeFormatted = formatTime(appointmentData.appointmentTime);
+            
+            // Build confirmation details HTML
+            confirmationDetails.innerHTML = `
+                <div class="confirmation-detail-item">
+                    <div class="confirmation-detail-icon">🆔</div>
+                    <div class="confirmation-detail-content">
+                        <div class="confirmation-detail-label">Appointment ID</div>
+                        <div class="confirmation-detail-value">${appointmentData.appointmentId}</div>
+                    </div>
+                </div>
+                
+                <div class="confirmation-detail-item">
+                    <div class="confirmation-detail-icon">👤</div>
+                    <div class="confirmation-detail-content">
+                        <div class="confirmation-detail-label">Patient Name</div>
+                        <div class="confirmation-detail-value">${appointmentData.patientName}</div>
+                    </div>
+                </div>
+                
+                <div class="confirmation-detail-item">
+                    <div class="confirmation-detail-icon">👨‍⚕️</div>
+                    <div class="confirmation-detail-content">
+                        <div class="confirmation-detail-label">Doctor</div>
+                        <div class="confirmation-detail-value">${doctorName}${doctorSpecialty ? ' - ' + doctorSpecialty : ''}</div>
+                    </div>
+                </div>
+                
+                <div class="confirmation-detail-item">
+                    <div class="confirmation-detail-icon">📅</div>
+                    <div class="confirmation-detail-content">
+                        <div class="confirmation-detail-label">Date</div>
+                        <div class="confirmation-detail-value">${formattedDate}</div>
+                    </div>
+                </div>
+                
+                <div class="confirmation-detail-item">
+                    <div class="confirmation-detail-icon">🕐</div>
+                    <div class="confirmation-detail-content">
+                        <div class="confirmation-detail-label">Time</div>
+                        <div class="confirmation-detail-value">${timeFormatted}</div>
+                    </div>
+                </div>
+                
+                <div class="confirmation-detail-item">
+                    <div class="confirmation-detail-icon">📧</div>
+                    <div class="confirmation-detail-content">
+                        <div class="confirmation-detail-label">Email</div>
+                        <div class="confirmation-detail-value">${appointmentData.patientEmail}</div>
+                    </div>
+                </div>
+                
+                <div class="confirmation-detail-item">
+                    <div class="confirmation-detail-icon">📱</div>
+                    <div class="confirmation-detail-content">
+                        <div class="confirmation-detail-label">Phone</div>
+                        <div class="confirmation-detail-value">${appointmentData.patientPhone}</div>
+                    </div>
+                </div>
+            `;
+            
+            // Show confirmation modal
+            confirmationModalOverlay.classList.add('active');
+            document.body.style.overflow = 'hidden';
+            
+            console.log('✅ Confirmation modal displayed');
+        })
+        .catch((error) => {
+            console.error('Error fetching doctor details:', error);
+            
+            // Show confirmation anyway with basic details
+            confirmationDetails.innerHTML = `
+                <div class="confirmation-detail-item">
+                    <div class="confirmation-detail-icon">🆔</div>
+                    <div class="confirmation-detail-content">
+                        <div class="confirmation-detail-label">Appointment ID</div>
+                        <div class="confirmation-detail-value">${appointmentData.appointmentId}</div>
+                    </div>
+                </div>
+                
+                <div class="confirmation-detail-item">
+                    <div class="confirmation-detail-icon">👤</div>
+                    <div class="confirmation-detail-content">
+                        <div class="confirmation-detail-label">Patient Name</div>
+                        <div class="confirmation-detail-value">${appointmentData.patientName}</div>
+                    </div>
+                </div>
+                
+                <div class="confirmation-detail-item">
+                    <div class="confirmation-detail-icon">📅</div>
+                    <div class="confirmation-detail-content">
+                        <div class="confirmation-detail-label">Date & Time</div>
+                        <div class="confirmation-detail-value">${appointmentData.appointmentDate} at ${appointmentData.appointmentTime}</div>
+                    </div>
+                </div>
+            `;
+            
+            confirmationModalOverlay.classList.add('active');
+            document.body.style.overflow = 'hidden';
+        });
+}
+
+/**
+ * Close confirmation modal
+ */
+function closeConfirmationModal() {
+    const confirmationModalOverlay = document.getElementById('confirmation-modal-overlay');
+    confirmationModalOverlay.classList.remove('active');
+    document.body.style.overflow = '';
+    console.log('Confirmation modal closed');
+}
+
+/**
+ * Format time from 24h to 12h format
+ * @param {string} time - Time in HH:MM format
+ * @returns {string} Formatted time (e.g., "02:00 PM")
+ */
+function formatTime(time) {
+    const [hours, minutes] = time.split(':');
+    const hour = parseInt(hours);
+    const ampm = hour >= 12 ? 'PM' : 'AM';
+    const hour12 = hour % 12 || 12;
+    return `${hour12}:${minutes} ${ampm}`;
+}
+
+/**
+ * View appointments (placeholder for Issue #15)
+ */
+function viewAppointments() {
+    closeConfirmationModal();
+    
+    // Scroll to appointments section
+    const appointmentsSection = document.getElementById('appointments');
+    if (appointmentsSection) {
+        appointmentsSection.scrollIntoView({ behavior: 'smooth' });
+    }
+    
+    // This will be fully implemented in Issue #15
+    console.log('View appointments clicked - will be implemented in Issue #15');
+}

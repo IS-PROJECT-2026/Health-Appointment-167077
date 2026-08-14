@@ -361,6 +361,42 @@
         </div>
     </div>
 
+    <!-- Confirmation Modal -->
+    <div class="modal-overlay" id="confirmation-modal-overlay">
+        <div class="modal confirmation-modal" id="confirmation-modal">
+            <button class="modal__close" id="confirmation-modal-close" aria-label="Close confirmation modal">
+                <span>&times;</span>
+            </button>
+            
+            <div class="modal__content">
+                <div class="confirmation-icon">
+                    <span class="confirmation-icon__check">✓</span>
+                </div>
+                
+                <h2 class="confirmation-title">Appointment Confirmed!</h2>
+                <p class="confirmation-subtitle">Your appointment has been successfully booked</p>
+                
+                <div class="confirmation-details" id="confirmation-details">
+                    <!-- Confirmation details will be dynamically inserted here -->
+                </div>
+                
+                <div class="confirmation-message">
+                    <p>📧 A confirmation email has been sent to your registered email address.</p>
+                    <p>📱 You will receive an SMS reminder 24 hours before your appointment.</p>
+                </div>
+                
+                <div class="confirmation-actions">
+                    <button class="btn btn-primary" onclick="closeConfirmationModal()">
+                        Got it, Thanks!
+                    </button>
+                    <button class="btn btn-outline" onclick="viewAppointments()">
+                        View My Appointments
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
     <script src="script.js"></script>
 </body>
 </html>
