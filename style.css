@@ -1,5 +1,30 @@
 /* ===================================
-   CSS Reset & Base Styles
+   HEALTH APPOINTMENT BOOKING SYSTEM
+   Main Stylesheet
+   ===================================
+   
+ 
+   1. CSS Reset & Base Styles
+   2. Design System Variables
+   3. Typography & Layout
+   4. Components
+      - Header & Navigation
+      - Hero Section
+      - Buttons
+      - Doctors Section
+      - Modals
+      - Forms
+      - Appointments Section
+      - Footer
+   5. Animations
+   6. Media Queries
+   7. Utility Classes
+   
+   =================================== */
+
+
+/* ===================================
+   1. CSS RESET & BASE STYLES
    =================================== */
 
 * {
@@ -8,10 +33,25 @@
     box-sizing: border-box;
 }
 
+html {
+    scroll-behavior: smooth;
+}
+
+body {
+    font-family: var(--font-main);
+    font-size: var(--text-base);
+    color: var(--text-dark);
+    line-height: var(--leading-normal);
+    background-color: var(--bg-primary);
+}
+
+
+/* ===================================
+   2. DESIGN SYSTEM VARIABLES
+   =================================== */
+
 :root {
-    /* ===================================
-       Color System
-       =================================== */
+    /* --- Color System --- */
     
     /* Primary Colors */
     --primary-color: #2563eb;
@@ -52,9 +92,7 @@
     --border-medium: #d1d5db;
     --border-dark: #9ca3af;
     
-    /* ===================================
-       Typography System
-       =================================== */
+    /* --- Typography System --- */
     
     /* Font Families */
     --font-main: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
@@ -87,10 +125,7 @@
     --leading-relaxed: 1.75;
     --leading-loose: 2;
     
-    /* ===================================
-       Spacing System
-       =================================== */
-    
+    /* --- Spacing System --- */
     --space-1: 0.25rem;   /* 4px */
     --space-2: 0.5rem;    /* 8px */
     --space-3: 0.75rem;   /* 12px */
@@ -104,10 +139,7 @@
     --space-20: 5rem;     /* 80px */
     --space-24: 6rem;     /* 96px */
     
-    /* ===================================
-       Layout System
-       =================================== */
-    
+    /* --- Layout System --- */
     --header-height: 4rem;
     --max-width: 1200px;
     --container-padding: 1.5rem;
@@ -142,35 +174,58 @@
     --z-tooltip: 1070;
 }
 
-html {
-    scroll-behavior: smooth;
-}
-
-body {
-    font-family: var(--font-main);
-    font-size: var(--text-base);
-    color: var(--text-dark);
-    line-height: var(--leading-normal);
-    background-color: var(--bg-primary);
-}
 
 /* ===================================
-   Reusable Classes
+   3. TYPOGRAPHY & LAYOUT
    =================================== */
 
 .container {
-    max-width: 1200px;
-    margin-left: 1.5rem;
-    margin-right: 1.5rem;
+    max-width: var(--max-width);
+    margin-left: var(--container-padding);
+    margin-right: var(--container-padding);
 }
 
 .section {
     padding: 4rem 0 2rem;
 }
 
+.section h2 {
+    font-size: 2rem;
+    margin-bottom: 1rem;
+    color: var(--text-dark);
+}
+
+.section p {
+    color: var(--text-light);
+}
+
+.section-header {
+    text-align: center;
+    margin-bottom: var(--space-12);
+}
+
+.section-title {
+    font-size: var(--text-4xl);
+    font-weight: var(--font-bold);
+    color: var(--text-dark);
+    margin-bottom: var(--space-2);
+}
+
+.section-subtitle {
+    font-size: var(--text-lg);
+    color: var(--text-light);
+}
+
+.main {
+    margin-top: var(--header-height);
+}
+
+
 /* ===================================
-   Header & Navigation
+   4. COMPONENTS
    =================================== */
+
+/* --- Header & Navigation --- */
 
 .header {
     position: fixed;
@@ -249,17 +304,8 @@ body {
     color: var(--text-dark);
 }
 
-/* ===================================
-   Main Content (Temporary)
-   =================================== */
 
-.main {
-    margin-top: var(--header-height);
-}
-
-/* ===================================
-   Hero Section
-   =================================== */
+/* --- Hero Section --- */
 
 .hero {
     background: linear-gradient(135deg, #f3f4f6 0%, #e0e7ff 100%);
@@ -305,40 +351,6 @@ body {
     justify-content: center;
     flex-wrap: wrap;
     margin-bottom: 3rem;
-}
-
-.btn {
-    padding: var(--space-3) var(--space-8);
-    border-radius: var(--radius-lg);
-    text-decoration: none;
-    font-weight: var(--font-semibold);
-    transition: all var(--transition-base);
-    display: inline-block;
-    text-align: center;
-}
-
-.btn-primary {
-    background-color: var(--primary-color);
-    color: var(--bg-primary);
-    box-shadow: var(--shadow-md);
-}
-
-.btn-primary:hover {
-    background-color: var(--primary-dark);
-    transform: translateY(-2px);
-    box-shadow: var(--shadow-lg);
-}
-
-.btn-outline {
-    border: 2px solid var(--primary-color);
-    color: var(--primary-color);
-    background-color: transparent;
-}
-
-.btn-outline:hover {
-    background-color: var(--primary-color);
-    color: var(--bg-primary);
-    transform: translateY(-2px);
 }
 
 .hero__stats {
@@ -395,63 +407,67 @@ body {
     animation: float 3s ease-in-out infinite;
 }
 
-@keyframes pulse {
-    0%, 100% {
-        transform: scale(1);
-    }
-    50% {
-        transform: scale(1.1);
-    }
+
+/* --- Buttons --- */
+
+.btn {
+    padding: var(--space-3) var(--space-8);
+    border-radius: var(--radius-lg);
+    text-decoration: none;
+    font-weight: var(--font-semibold);
+    transition: all var(--transition-base);
+    display: inline-block;
+    text-align: center;
+    border: none;
+    cursor: pointer;
 }
 
-@keyframes float {
-    0%, 100% {
-        transform: translateY(0);
-    }
-    50% {
-        transform: translateY(-20px);
-    }
+.btn-primary {
+    background-color: var(--primary-color);
+    color: var(--bg-primary);
+    box-shadow: var(--shadow-md);
 }
 
-/* Placeholder sections */
-.section {
-    padding: 4rem 0 2rem;
+.btn-primary:hover {
+    background-color: var(--primary-dark);
+    transform: translateY(-2px);
+    box-shadow: var(--shadow-lg);
 }
 
-.section h2 {
-    font-size: 2rem;
-    margin-bottom: 1rem;
-    color: var(--text-dark);
+.btn-outline {
+    border: 2px solid var(--primary-color);
+    color: var(--primary-color);
+    background-color: transparent;
 }
 
-.section p {
-    color: var(--text-light);
+.btn-outline:hover {
+    background-color: var(--primary-color);
+    color: var(--bg-primary);
+    transform: translateY(-2px);
 }
 
-/* ===================================
-   Doctors Section
-   =================================== */
+.btn-card {
+    padding: var(--space-3) var(--space-6);
+    background-color: var(--primary-color);
+    color: var(--bg-primary);
+    border: none;
+    border-radius: var(--radius-lg);
+    font-weight: var(--font-semibold);
+    cursor: pointer;
+    transition: all var(--transition-base);
+}
+
+.btn-card:hover {
+    background-color: var(--primary-dark);
+    transform: translateX(4px);
+}
+
+
+/* --- Doctors Section --- */
 
 .doctors-section {
     padding: var(--space-16) 0;
     background-color: var(--bg-secondary);
-}
-
-.section-header {
-    text-align: center;
-    margin-bottom: var(--space-12);
-}
-
-.section-title {
-    font-size: var(--text-4xl);
-    font-weight: var(--font-bold);
-    color: var(--text-dark);
-    margin-bottom: var(--space-2);
-}
-
-.section-subtitle {
-    font-size: var(--text-lg);
-    color: var(--text-light);
 }
 
 .doctors-grid {
@@ -461,9 +477,7 @@ body {
     margin-top: var(--space-8);
 }
 
-/* ===================================
-   Doctor Card Component
-   =================================== */
+/* Doctor Card Component */
 
 .doctor-card {
     background-color: var(--bg-primary);
@@ -569,23 +583,9 @@ body {
     color: var(--primary-color);
 }
 
-.btn-card {
-    padding: var(--space-3) var(--space-6);
-    background-color: var(--primary-color);
-    color: var(--bg-primary);
-    border: none;
-    border-radius: var(--radius-lg);
-    font-weight: var(--font-semibold);
-    cursor: pointer;
-    transition: all var(--transition-base);
-}
 
-.btn-card:hover {
-    background-color: var(--primary-dark);
-    transform: translateX(4px);
-}
+/* --- Loading & Empty States --- */
 
-/* Loading State */
 .loading {
     text-align: center;
     padding: var(--space-12) 0;
@@ -601,24 +601,36 @@ body {
     margin: 0 auto var(--space-4);
 }
 
-@keyframes spin {
-    to { transform: rotate(360deg); }
-}
-
-/* Empty State */
 .empty-state {
     text-align: center;
     padding: var(--space-12) 0;
     color: var(--text-light);
 }
 
+.empty-state-icon {
+    font-size: 5rem;
+    margin-bottom: var(--space-4);
+}
+
+.empty-state-title {
+    font-size: var(--text-3xl);
+    font-weight: var(--font-bold);
+    color: var(--text-dark);
+    margin-bottom: var(--space-2);
+}
+
+.empty-state-text {
+    font-size: var(--text-lg);
+    color: var(--text-light);
+    margin-bottom: var(--space-6);
+}
+
 .hidden {
     display: none;
 }
 
-/* ===================================
-   Doctor Detail Modal
-   =================================== */
+
+/* --- Modal Base Styles --- */
 
 .modal-overlay {
     position: fixed;
@@ -685,6 +697,9 @@ body {
 .modal__content {
     padding: var(--space-8);
 }
+
+
+/* --- Doctor Detail Modal --- */
 
 .modal__header {
     display: grid;
@@ -822,9 +837,8 @@ body {
     justify-content: center;
 }
 
-/* ===================================
-   Booking Form Styles
-   =================================== */
+
+/* --- Booking Form --- */
 
 .booking-form__title {
     font-size: var(--text-4xl);
@@ -931,9 +945,8 @@ body {
     flex: 1;
 }
 
-/* ===================================
-   Confirmation Modal Styles
-   =================================== */
+
+/* --- Confirmation Modal --- */
 
 .confirmation-modal {
     max-width: 600px;
@@ -955,20 +968,6 @@ body {
     font-size: 4rem;
     color: var(--bg-primary);
     font-weight: var(--font-bold);
-}
-
-@keyframes successPop {
-    0% {
-        transform: scale(0);
-        opacity: 0;
-    }
-    50% {
-        transform: scale(1.2);
-    }
-    100% {
-        transform: scale(1);
-        opacity: 1;
-    }
 }
 
 .confirmation-title {
@@ -1062,9 +1061,8 @@ body {
     width: 100%;
 }
 
-/* ===================================
-   Appointments Section
-   =================================== */
+
+/* --- Appointments Section --- */
 
 .appointments-section {
     padding: var(--space-16) 0;
@@ -1106,6 +1104,8 @@ body {
     display: grid;
     gap: var(--space-6);
 }
+
+/* Appointment Card Component */
 
 .appointment-card {
     background-color: var(--bg-primary);
@@ -1206,12 +1206,6 @@ body {
     color: var(--text-dark);
 }
 
-.appointment-card__date-time {
-    display: flex;
-    flex-wrap: wrap;
-    gap: var(--space-4);
-}
-
 .appointment-card__footer {
     padding-top: var(--space-4);
     border-top: 1px solid var(--border-light);
@@ -1250,28 +1244,8 @@ body {
     color: var(--bg-primary);
 }
 
-/* Empty State */
-.empty-state-icon {
-    font-size: 5rem;
-    margin-bottom: var(--space-4);
-}
 
-.empty-state-title {
-    font-size: var(--text-3xl);
-    font-weight: var(--font-bold);
-    color: var(--text-dark);
-    margin-bottom: var(--space-2);
-}
-
-.empty-state-text {
-    font-size: var(--text-lg);
-    color: var(--text-light);
-    margin-bottom: var(--space-6);
-}
-
-/* ===================================
-   Footer
-   =================================== */
+/* --- Footer --- */
 
 .footer {
     background-color: var(--text-dark);
@@ -1422,9 +1396,55 @@ body {
     color: rgba(255, 255, 255, 0.3);
 }
 
+
 /* ===================================
-   Mobile Navigation
+   5. ANIMATIONS
    =================================== */
+
+@keyframes pulse {
+    0%, 100% {
+        transform: scale(1);
+    }
+    50% {
+        transform: scale(1.1);
+    }
+}
+
+@keyframes float {
+    0%, 100% {
+        transform: translateY(0);
+    }
+    50% {
+        transform: translateY(-20px);
+    }
+}
+
+@keyframes spin {
+    to { 
+        transform: rotate(360deg); 
+    }
+}
+
+@keyframes successPop {
+    0% {
+        transform: scale(0);
+        opacity: 0;
+    }
+    50% {
+        transform: scale(1.2);
+    }
+    100% {
+        transform: scale(1);
+        opacity: 1;
+    }
+}
+
+
+/* ===================================
+   6. MEDIA QUERIES
+   =================================== */
+
+/* --- Mobile Navigation --- */
 
 @media screen and (max-width: 768px) {
     .container {
@@ -1470,9 +1490,7 @@ body {
     }
 }
 
-/* ===================================
-   Tablet & Desktop
-   =================================== */
+/* --- Tablet & Desktop --- */
 
 @media screen and (min-width: 769px) {
     .container {
@@ -1484,7 +1502,7 @@ body {
         gap: 3rem;
     }
 
-    /* Hero Section - Tablet/Desktop */
+    /* Hero Section */
     .hero__container {
         grid-template-columns: 1fr 1fr;
         gap: 4rem;
@@ -1521,7 +1539,7 @@ body {
         font-size: 10rem;
     }
 
-    /* Doctors Grid - Tablet */
+    /* Doctors Grid */
     .doctors-grid {
         grid-template-columns: repeat(2, 1fr);
         gap: var(--space-8);
@@ -1532,7 +1550,7 @@ body {
         justify-content: space-around;
     }
 
-    /* Footer - Tablet/Desktop */
+    /* Footer */
     .footer__content {
         grid-template-columns: 2fr 1fr 1.5fr 1fr;
         gap: 2rem;
@@ -1544,6 +1562,8 @@ body {
         text-align: left;
     }
 }
+
+/* --- Desktop Large --- */
 
 @media screen and (min-width: 1024px) {
     :root {
@@ -1561,13 +1581,13 @@ body {
         font-size: 1.25rem;
     }
 
-    /* Doctors Grid - Desktop (3 columns) */
+    /* Doctors Grid - 3 columns */
     .doctors-grid {
         grid-template-columns: repeat(3, 1fr);
         gap: var(--space-10);
     }
 
-    /* Modal - Desktop */
+    /* Modal Desktop Layout */
     .modal__header {
         grid-template-columns: 250px 1fr;
         text-align: left;
@@ -1585,17 +1605,17 @@ body {
         grid-template-columns: repeat(2, 1fr);
     }
 
-    /* Booking Form - Desktop */
+    /* Form Desktop Layout */
     .form-row {
         grid-template-columns: repeat(2, 1fr);
     }
     
-    /* Confirmation Modal - Desktop */
+    /* Confirmation Modal */
     .confirmation-actions {
         flex-direction: row;
     }
     
-    /* Appointments - Desktop */
+    /* Appointments Desktop Layout */
     .appointment-card {
         flex-direction: row;
         align-items: center;
@@ -1615,8 +1635,9 @@ body {
     }
 }
 
+
 /* ===================================
-   Utility Classes
+   7. UTILITY CLASSES
    =================================== */
 
 /* Text Alignment */
@@ -1649,18 +1670,14 @@ body {
 .mt-2 { margin-top: var(--space-2); }
 .mt-4 { margin-top: var(--space-4); }
 .mt-8 { margin-top: var(--space-8); }
-
 .mb-1 { margin-bottom: var(--space-1); }
 .mb-2 { margin-bottom: var(--space-2); }
 .mb-4 { margin-bottom: var(--space-4); }
 .mb-8 { margin-bottom: var(--space-8); }
-
 .p-4 { padding: var(--space-4); }
 .p-8 { padding: var(--space-8); }
-
 .py-4 { padding-top: var(--space-4); padding-bottom: var(--space-4); }
 .py-8 { padding-top: var(--space-8); padding-bottom: var(--space-8); }
-
 .px-4 { padding-left: var(--space-4); padding-right: var(--space-4); }
 .px-8 { padding-left: var(--space-8); padding-right: var(--space-8); }
 
@@ -1695,7 +1712,7 @@ body {
 .w-full { width: 100%; }
 .w-auto { width: auto; }
 
-/* Container */
+/* Container Utilities */
 .container-fluid {
     width: 100%;
     padding-left: var(--container-padding);
