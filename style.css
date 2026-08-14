@@ -1245,6 +1245,37 @@ body {
 }
 
 
+/* --- Contact Section --- */
+
+.contact-section {
+    padding: var(--space-16) 0;
+    background-color: var(--bg-secondary);
+}
+
+.contact-form-container {
+    max-width: 800px;
+    margin: 0 auto;
+    background-color: var(--bg-primary);
+    padding: var(--space-8);
+    border-radius: var(--radius-2xl);
+    box-shadow: var(--shadow-lg);
+}
+
+.contact-form .form-group {
+    margin-bottom: var(--space-5);
+}
+
+.form-actions-center {
+    display: flex;
+    justify-content: center;
+    margin-top: var(--space-6);
+}
+
+.form-actions-center .btn {
+    min-width: 200px;
+}
+
+
 /* --- Footer --- */
 
 .footer {
@@ -1539,7 +1570,7 @@ body {
         font-size: 10rem;
     }
 
-    /* Doctors Grid */
+    /* Doctors Grid - Tablet fixes */
     .doctors-grid {
         grid-template-columns: repeat(2, 1fr);
         gap: var(--space-8);
@@ -1547,7 +1578,31 @@ body {
 
     .doctor-card__info {
         flex-direction: row;
-        justify-content: space-around;
+        flex-wrap: wrap;
+        justify-content: space-between;
+    }
+    
+    .doctor-card__info-item {
+        flex: 0 0 48%;
+    }
+
+    /* Appointments - Tablet fixes */
+    .appointments-filter {
+        justify-content: flex-start;
+    }
+    
+    .appointment-card__body {
+        grid-template-columns: repeat(2, 1fr);
+    }
+
+    /* Contact Section - Tablet */
+    .contact-info {
+        grid-template-columns: repeat(2, 1fr);
+        gap: var(--space-6);
+    }
+
+    .contact-content {
+        gap: var(--space-8);
     }
 
     /* Footer */
@@ -1585,6 +1640,15 @@ body {
     .doctors-grid {
         grid-template-columns: repeat(3, 1fr);
         gap: var(--space-10);
+    }
+    
+    .doctor-card__info {
+        flex-direction: row;
+        justify-content: space-around;
+    }
+    
+    .doctor-card__info-item {
+        flex: 0 0 auto;
     }
 
     /* Modal Desktop Layout */
@@ -1632,6 +1696,17 @@ body {
         padding-top: 0;
         padding-left: var(--space-4);
         flex-direction: column;
+    }
+
+    /* Contact Section - Desktop */
+    .contact-info {
+        grid-template-columns: repeat(4, 1fr);
+    }
+
+    .contact-content {
+        grid-template-columns: 1fr 1fr;
+        gap: var(--space-12);
+        align-items: start;
     }
 }
 
