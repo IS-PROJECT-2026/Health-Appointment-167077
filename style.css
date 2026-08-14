@@ -932,6 +932,137 @@ body {
 }
 
 /* ===================================
+   Confirmation Modal Styles
+   =================================== */
+
+.confirmation-modal {
+    max-width: 600px;
+}
+
+.confirmation-icon {
+    width: 100px;
+    height: 100px;
+    margin: 0 auto var(--space-6);
+    background: linear-gradient(135deg, var(--success), var(--secondary-light));
+    border-radius: var(--radius-full);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    animation: successPop 0.5s ease-out;
+}
+
+.confirmation-icon__check {
+    font-size: 4rem;
+    color: var(--bg-primary);
+    font-weight: var(--font-bold);
+}
+
+@keyframes successPop {
+    0% {
+        transform: scale(0);
+        opacity: 0;
+    }
+    50% {
+        transform: scale(1.2);
+    }
+    100% {
+        transform: scale(1);
+        opacity: 1;
+    }
+}
+
+.confirmation-title {
+    font-size: var(--text-4xl);
+    font-weight: var(--font-bold);
+    color: var(--text-dark);
+    text-align: center;
+    margin-bottom: var(--space-2);
+}
+
+.confirmation-subtitle {
+    font-size: var(--text-lg);
+    color: var(--text-light);
+    text-align: center;
+    margin-bottom: var(--space-8);
+}
+
+.confirmation-details {
+    background-color: var(--bg-light);
+    border-radius: var(--radius-xl);
+    padding: var(--space-6);
+    margin-bottom: var(--space-6);
+}
+
+.confirmation-detail-item {
+    display: flex;
+    align-items: flex-start;
+    gap: var(--space-3);
+    padding: var(--space-3) 0;
+    border-bottom: 1px solid var(--border-light);
+}
+
+.confirmation-detail-item:last-child {
+    border-bottom: none;
+}
+
+.confirmation-detail-icon {
+    font-size: var(--text-xl);
+    flex-shrink: 0;
+    width: 32px;
+    height: 32px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background-color: var(--bg-primary);
+    border-radius: var(--radius-md);
+}
+
+.confirmation-detail-content {
+    flex: 1;
+}
+
+.confirmation-detail-label {
+    font-size: var(--text-sm);
+    color: var(--text-light);
+    margin-bottom: var(--space-1);
+}
+
+.confirmation-detail-value {
+    font-size: var(--text-base);
+    font-weight: var(--font-semibold);
+    color: var(--text-dark);
+    word-break: break-word;
+}
+
+.confirmation-message {
+    background-color: var(--bg-secondary);
+    border-left: 4px solid var(--info);
+    padding: var(--space-4);
+    border-radius: var(--radius-lg);
+    margin-bottom: var(--space-8);
+}
+
+.confirmation-message p {
+    font-size: var(--text-sm);
+    color: var(--text-medium);
+    margin-bottom: var(--space-2);
+}
+
+.confirmation-message p:last-child {
+    margin-bottom: 0;
+}
+
+.confirmation-actions {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-3);
+}
+
+.confirmation-actions .btn {
+    width: 100%;
+}
+
+/* ===================================
    Footer
    =================================== */
 
@@ -1250,6 +1381,11 @@ body {
     /* Booking Form - Desktop */
     .form-row {
         grid-template-columns: repeat(2, 1fr);
+    }
+    
+    /* Confirmation Modal - Desktop */
+    .confirmation-actions {
+        flex-direction: row;
     }
 }
 
