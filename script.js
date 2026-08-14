@@ -571,6 +571,79 @@ function validateBookingForm() {
 }
 
 // ===================================
+// Save Appointment to Firebase
+// ===================================
+
+/**
+ * Saves appointment data to Firebase Realtime Database
+ * Creates appointment with unique ID under /appointments node
+ * 
+ * @param {Object} appointmentData - Form data including patient info and appointment details
+ */
+function saveAppointment(appointmentData) {
+    console.log('💾 Saving appointment to Firebase...');
+    
+    // Reference to appointments node in Firebase
+    const appointmentsRef = database.ref('appointments');
+    
+    // Generate a new appointment with unique ID using push()
+    const newAppointmentRef = appointmentsRef.push();
+    
+    // Add unique appointment ID to the data
+    const appointmentWithId = {
+        ...appointmentData,
+        appointmentId: newAppointmentRef.key,
+        status: 'pending', // Default status
+        createdAt: Date.now()
+    };
+    
+    // Disable submit button and show loading state
+    const submitButton = document.getElementById('submit-booking');
+    const originalButtonText = submitButton.innerHTML;
+    submitButton.disabled = true;
+    submitButton.innerHTML = '⏳ Saving...';
+    
+    // Save to Firebase
+    newAppointmentRef.set(appointmentWithId)
+        .then(() => {
+            console.log('✅ Appointment saved successfully!');
+            console.log('Appointment ID:', newAppointmentRef.key);
+            
+            // Re-enable button
+            submitButton.disabled = false;
+            submitButton.innerHTML = originalButtonText;
+            
+            // Close booking modal
+            closeBookingModal();
+            
+            // This will be implemented in Issue #14 (Show confirmation)
+            alert('✅ Appointment Booked Successfully!\n\n' +
+                  `Appointment ID: ${newAppointmentRef.key}\n` +
+                  `Patient: ${appointmentData.patientName}\n` +
+                  `Date: ${appointmentData.appointmentDate}\n` +
+                  `Time: ${appointmentData.appointmentTime}\n\n` +
+                  'You will receive a confirmation email shortly.');
+            
+            // Reset form
+            document.getElementById('booking-form').reset();
+            clearFormErrors();
+        })
+        .catch((error) => {
+            console.error('❌ Error saving appointment:', error);
+            
+            // Re-enable button
+            submitButton.disabled = false;
+            submitButton.innerHTML = originalButtonText;
+            
+            // Show error message
+            alert('❌ Error saving appointment!\n\n' +
+                  'There was a problem saving your appointment. ' +
+                  'Please try again or contact support.\n\n' +
+                  `Error: ${error.message}`);
+        });
+}
+
+// ===================================
 // Real-time Validation (on blur)
 // ===================================
 
@@ -686,14 +759,8 @@ document.addEventListener('DOMContentLoaded', function() {
             
             console.log('Form data:', formData);
             
-            // This will be implemented in Issue #13 (Save to Firebase)
-            alert('✅ Form validation successful!\n\nData will be saved to Firebase in Issue #13.\n\nYour appointment details:\n' +
-                  `Doctor ID: ${formData.doctorId}\n` +
-                  `Name: ${formData.patientName}\n` +
-                  `Email: ${formData.patientEmail}\n` +
-                  `Phone: ${formData.patientPhone}\n` +
-                  `Date: ${formData.appointmentDate}\n` +
-                  `Time: ${formData.appointmentTime}`);
+            // Save appointment to Firebase
+            saveAppointment(formData);
         } else {
             console.log('❌ Form has errors');
         }
