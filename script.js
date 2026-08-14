@@ -60,6 +60,9 @@ document.addEventListener('DOMContentLoaded', function() {
     
     // Load doctors from Firebase
     loadDoctors();
+    
+    // Load appointments from Firebase
+    loadAppointments();
 });
 
 // ===================================
@@ -961,6 +964,459 @@ function viewAppointments() {
         appointmentsSection.scrollIntoView({ behavior: 'smooth' });
     }
     
-    // This will be fully implemented in Issue #15
-    console.log('View appointments clicked - will be implemented in Issue #15');
+    // Reload appointments to show the latest
+    loadAppointments();
+}
+
+// ===================================
+// Appointments Management Functions
+// ===================================
+
+// Store all appointments globally for filtering
+let allAppointments = [];
+let currentFilter = 'all';
+
+/**
+ * Load appointments from Firebase
+ */
+function loadAppointments() {
+    console.log('Loading appointments from Firebase...');
+    
+    const appointmentsList = document.getElementById('appointments-list');
+    const loadingElement = document.getElementById('appointments-loading');
+    const emptyElement = document.getElementById('appointments-empty');
+    
+    // Show loading state
+    loadingElement.classList.remove('hidden');
+    appointmentsList.innerHTML = '';
+    emptyElement.classList.add('hidden');
+    
+    // Reference to appointments in Firebase
+    const appointmentsRef = database.ref('appointments');
+    
+    appointmentsRef.once('value')
+        .then((snapshot) => {
+            const appointmentsData = snapshot.val();
+            
+            // Hide loading
+            loadingElement.classList.add('hidden');
+            
+            if (appointmentsData && typeof appointmentsData === 'object') {
+                const appointmentKeys = Object.keys(appointmentsData);
+                
+                if (appointmentKeys.length > 0) {
+                    // Store appointments globally
+                    allAppointments = [];
+                    
+                    // Convert to array and sort by date (most recent first)
+                    appointmentKeys.forEach((key) => {
+                        const appointment = appointmentsData[key];
+                        allAppointments.push(appointment);
+                    });
+                    
+                    // Sort by date (newest first)
+                    allAppointments.sort((a, b) => {
+                        const dateA = new Date(a.appointmentDate + ' ' + a.appointmentTime);
+                        const dateB = new Date(b.appointmentDate + ' ' + b.appointmentTime);
+                        return dateB - dateA;
+                    });
+                    
+                    // Display appointments based on current filter
+                    displayAppointments(currentFilter);
+                    
+                    console.log(`✅ Successfully loaded ${appointmentKeys.length} appointments`);
+                } else {
+                    // Show empty state
+                    emptyElement.classList.remove('hidden');
+                    console.log('No appointments found in database');
+                }
+            } else {
+                // Show empty state
+                emptyElement.classList.remove('hidden');
+                console.log('No appointments data available');
+            }
+        })
+        .catch((error) => {
+            // Hide loading
+            loadingElement.classList.add('hidden');
+            
+            // Show error message
+            appointmentsList.innerHTML = `
+                <div class="error-state">
+                    <p>❌ Error loading appointments: ${error.message}</p>
+                    <button onclick="loadAppointments()" class="btn btn-primary">Retry</button>
+                </div>
+            `;
+            
+            console.error('Error loading appointments:', error);
+        });
+}
+
+/**
+ * Display appointments based on filter
+ * @param {string} filter - Filter type (all, pending, upcoming, past)
+ */
+function displayAppointments(filter) {
+    const appointmentsList = document.getElementById('appointments-list');
+    const emptyElement = document.getElementById('appointments-empty');
+    
+    // Filter appointments
+    let filteredAppointments = allAppointments;
+    const now = new Date();
+    
+    if (filter === 'pending') {
+        filteredAppointments = allAppointments.filter(apt => apt.status === 'pending');
+    } else if (filter === 'upcoming') {
+        filteredAppointments = allAppointments.filter(apt => {
+            const aptDate = new Date(apt.appointmentDate + ' ' + apt.appointmentTime);
+            return aptDate > now && apt.status !== 'cancelled';
+        });
+    } else if (filter === 'past') {
+        filteredAppointments = allAppointments.filter(apt => {
+            const aptDate = new Date(apt.appointmentDate + ' ' + apt.appointmentTime);
+            return aptDate <= now || apt.status === 'cancelled';
+        });
+    }
+    
+    // Clear list
+    appointmentsList.innerHTML = '';
+    
+    if (filteredAppointments.length > 0) {
+        emptyElement.classList.add('hidden');
+        
+        // Create card for each appointment
+        filteredAppointments.forEach((appointment) => {
+            const card = createAppointmentCard(appointment);
+            appointmentsList.appendChild(card);
+        });
+    } else {
+        emptyElement.classList.remove('hidden');
+    }
+}
+
+/**
+ * Create appointment card element
+ * @param {Object} appointment - Appointment data
+ * @returns {HTMLElement} Appointment card element
+ */
+function createAppointmentCard(appointment) {
+    const card = document.createElement('div');
+    card.className = `appointment-card status-${appointment.status}`;
+    card.setAttribute('data-appointment-id', appointment.appointmentId);
+    
+    // Format date
+    const appointmentDate = new Date(appointment.appointmentDate);
+    const formattedDate = appointmentDate.toLocaleDateString('en-US', {
+        weekday: 'short',
+        year: 'numeric',
+        month: 'short',
+        day: 'numeric'
+    });
+    
+    // Format time
+    const timeFormatted = formatTime(appointment.appointmentTime);
+    
+    // Determine if appointment is past
+    const now = new Date();
+    const aptDateTime = new Date(appointment.appointmentDate + ' ' + appointment.appointmentTime);
+    const isPast = aptDateTime < now;
+    
+    // Build card HTML
+    card.innerHTML = `
+        <div class="appointment-card__header">
+            <span class="appointment-card__status ${appointment.status}">${appointment.status}</span>
+        </div>
+        
+        <div class="appointment-card__body">
+            <div class="appointment-card__info">
+                <div class="appointment-card__icon">👨‍⚕️</div>
+                <div class="appointment-card__content">
+                    <div class="appointment-card__label">Doctor</div>
+                    <div class="appointment-card__value" id="doctor-name-${appointment.appointmentId}">Loading...</div>
+                </div>
+            </div>
+            
+            <div class="appointment-card__info">
+                <div class="appointment-card__icon">👤</div>
+                <div class="appointment-card__content">
+                    <div class="appointment-card__label">Patient</div>
+                    <div class="appointment-card__value">${appointment.patientName}</div>
+                </div>
+            </div>
+            
+            <div class="appointment-card__info">
+                <div class="appointment-card__icon">📅</div>
+                <div class="appointment-card__content">
+                    <div class="appointment-card__label">Date</div>
+                    <div class="appointment-card__value">${formattedDate}</div>
+                </div>
+            </div>
+            
+            <div class="appointment-card__info">
+                <div class="appointment-card__icon">🕐</div>
+                <div class="appointment-card__content">
+                    <div class="appointment-card__label">Time</div>
+                    <div class="appointment-card__value">${timeFormatted}</div>
+                </div>
+            </div>
+        </div>
+        
+        <div class="appointment-card__footer">
+            <button class="appointment-card__btn appointment-card__btn--view" onclick="viewAppointmentDetails('${appointment.appointmentId}')">
+                View Details
+            </button>
+            ${!isPast && appointment.status !== 'cancelled' ? 
+                `<button class="appointment-card__btn appointment-card__btn--cancel" onclick="cancelAppointment('${appointment.appointmentId}')">
+                    Cancel
+                </button>` : ''}
+        </div>
+    `;
+    
+    // Fetch doctor name
+    fetchDoctorName(appointment.doctorId, appointment.appointmentId);
+    
+    return card;
+}
+
+/**
+ * Fetch doctor name from Firebase
+ * @param {string} doctorId - Doctor ID
+ * @param {string} appointmentId - Appointment ID for updating UI
+ */
+function fetchDoctorName(doctorId, appointmentId) {
+    const doctorRef = database.ref(`/${doctorId}`);
+    
+    doctorRef.once('value')
+        .then((snapshot) => {
+            const doctor = snapshot.val();
+            const doctorNameElement = document.getElementById(`doctor-name-${appointmentId}`);
+            
+            if (doctorNameElement && doctor) {
+                doctorNameElement.textContent = `${doctor.name} - ${doctor.specialty}`;
+            } else if (doctorNameElement) {
+                doctorNameElement.textContent = 'Unknown Doctor';
+            }
+        })
+        .catch((error) => {
+            console.error('Error fetching doctor name:', error);
+            const doctorNameElement = document.getElementById(`doctor-name-${appointmentId}`);
+            if (doctorNameElement) {
+                doctorNameElement.textContent = 'Unknown Doctor';
+            }
+        });
+}
+
+/**
+ * Filter appointments by status/type
+ * @param {string} filter - Filter type (all, pending, upcoming, past)
+ */
+function filterAppointments(filter) {
+    currentFilter = filter;
+    
+    // Update active filter button
+    const filterButtons = document.querySelectorAll('.filter-btn');
+    filterButtons.forEach(btn => {
+        btn.classList.remove('active');
+        if (btn.getAttribute('data-filter') === filter) {
+            btn.classList.add('active');
+        }
+    });
+    
+    // Display filtered appointments
+    displayAppointments(filter);
+    
+    console.log(`Filtering appointments: ${filter}`);
+}
+
+/**
+ * View appointment details in modal
+ * @param {string} appointmentId - Appointment ID
+ */
+function viewAppointmentDetails(appointmentId) {
+    console.log('Viewing appointment details:', appointmentId);
+    
+    // Find appointment in allAppointments array
+    const appointment = allAppointments.find(apt => apt.appointmentId === appointmentId);
+    
+    if (!appointment) {
+        alert('Appointment not found');
+        return;
+    }
+    
+    // Fetch doctor details
+    const doctorRef = database.ref(`/${appointment.doctorId}`);
+    
+    doctorRef.once('value')
+        .then((snapshot) => {
+            const doctor = snapshot.val();
+            showAppointmentDetailsModal(appointment, doctor);
+        })
+        .catch((error) => {
+            console.error('Error fetching doctor details:', error);
+            showAppointmentDetailsModal(appointment, null);
+        });
+}
+
+/**
+ * Show appointment details in confirmation-style modal
+ * @param {Object} appointment - Appointment data
+ * @param {Object} doctor - Doctor data
+ */
+function showAppointmentDetailsModal(appointment, doctor) {
+    // Reuse confirmation modal for displaying details
+    const confirmationModalOverlay = document.getElementById('confirmation-modal-overlay');
+    const confirmationDetails = document.getElementById('confirmation-details');
+    const confirmationTitle = document.querySelector('.confirmation-title');
+    const confirmationSubtitle = document.querySelector('.confirmation-subtitle');
+    const confirmationIcon = document.querySelector('.confirmation-icon');
+    const confirmationMessage = document.querySelector('.confirmation-message');
+    const confirmationActions = document.querySelector('.confirmation-actions');
+    
+    // Update title and subtitle
+    confirmationTitle.textContent = 'Appointment Details';
+    confirmationSubtitle.textContent = `Appointment ID: ${appointment.appointmentId}`;
+    
+    // Hide success icon
+    confirmationIcon.style.display = 'none';
+    
+    // Format date and time
+    const appointmentDate = new Date(appointment.appointmentDate);
+    const formattedDate = appointmentDate.toLocaleDateString('en-US', {
+        weekday: 'long',
+        year: 'numeric',
+        month: 'long',
+        day: 'numeric'
+    });
+    const timeFormatted = formatTime(appointment.appointmentTime);
+    
+    const doctorName = doctor ? doctor.name : 'Unknown Doctor';
+    const doctorSpecialty = doctor ? doctor.specialty : '';
+    
+    // Build details HTML
+    confirmationDetails.innerHTML = `
+        <div class="confirmation-detail-item">
+            <div class="confirmation-detail-icon">📋</div>
+            <div class="confirmation-detail-content">
+                <div class="confirmation-detail-label">Status</div>
+                <div class="confirmation-detail-value" style="text-transform: capitalize">${appointment.status}</div>
+            </div>
+        </div>
+        
+        <div class="confirmation-detail-item">
+            <div class="confirmation-detail-icon">👤</div>
+            <div class="confirmation-detail-content">
+                <div class="confirmation-detail-label">Patient Name</div>
+                <div class="confirmation-detail-value">${appointment.patientName}</div>
+            </div>
+        </div>
+        
+        <div class="confirmation-detail-item">
+            <div class="confirmation-detail-icon">👨‍⚕️</div>
+            <div class="confirmation-detail-content">
+                <div class="confirmation-detail-label">Doctor</div>
+                <div class="confirmation-detail-value">${doctorName}${doctorSpecialty ? ' - ' + doctorSpecialty : ''}</div>
+            </div>
+        </div>
+        
+        <div class="confirmation-detail-item">
+            <div class="confirmation-detail-icon">📅</div>
+            <div class="confirmation-detail-content">
+                <div class="confirmation-detail-label">Date</div>
+                <div class="confirmation-detail-value">${formattedDate}</div>
+            </div>
+        </div>
+        
+        <div class="confirmation-detail-item">
+            <div class="confirmation-detail-icon">🕐</div>
+            <div class="confirmation-detail-content">
+                <div class="confirmation-detail-label">Time</div>
+                <div class="confirmation-detail-value">${timeFormatted}</div>
+            </div>
+        </div>
+        
+        <div class="confirmation-detail-item">
+            <div class="confirmation-detail-icon">📧</div>
+            <div class="confirmation-detail-content">
+                <div class="confirmation-detail-label">Email</div>
+                <div class="confirmation-detail-value">${appointment.patientEmail}</div>
+            </div>
+        </div>
+        
+        <div class="confirmation-detail-item">
+            <div class="confirmation-detail-icon">📱</div>
+            <div class="confirmation-detail-content">
+                <div class="confirmation-detail-label">Phone</div>
+                <div class="confirmation-detail-value">${appointment.patientPhone}</div>
+            </div>
+        </div>
+        
+        <div class="confirmation-detail-item">
+            <div class="confirmation-detail-icon">📝</div>
+            <div class="confirmation-detail-content">
+                <div class="confirmation-detail-label">Reason for Visit</div>
+                <div class="confirmation-detail-value">${appointment.appointmentReason}</div>
+            </div>
+        </div>
+    `;
+    
+    // Hide message section
+    confirmationMessage.style.display = 'none';
+    
+    // Update actions
+    confirmationActions.innerHTML = `
+        <button class="btn btn-primary" onclick="closeAppointmentDetailsModal()">
+            Close
+        </button>
+    `;
+    
+    // Show modal
+    confirmationModalOverlay.classList.add('active');
+    document.body.style.overflow = 'hidden';
+}
+
+/**
+ * Close appointment details modal and restore confirmation modal
+ */
+function closeAppointmentDetailsModal() {
+    const confirmationModalOverlay = document.getElementById('confirmation-modal-overlay');
+    const confirmationIcon = document.querySelector('.confirmation-icon');
+    const confirmationMessage = document.querySelector('.confirmation-message');
+    
+    // Hide modal
+    confirmationModalOverlay.classList.remove('active');
+    document.body.style.overflow = '';
+    
+    // Restore confirmation modal elements
+    confirmationIcon.style.display = 'flex';
+    confirmationMessage.style.display = 'block';
+}
+
+/**
+ * Cancel appointment
+ * @param {string} appointmentId - Appointment ID
+ */
+function cancelAppointment(appointmentId) {
+    const confirmed = confirm('Are you sure you want to cancel this appointment?');
+    
+    if (!confirmed) {
+        return;
+    }
+    
+    console.log('Cancelling appointment:', appointmentId);
+    
+    // Update appointment status in Firebase
+    const appointmentRef = database.ref(`appointments/${appointmentId}`);
+    
+    appointmentRef.update({ status: 'cancelled' })
+        .then(() => {
+            console.log('✅ Appointment cancelled successfully');
+            alert('Appointment cancelled successfully');
+            
+            // Reload appointments to reflect changes
+            loadAppointments();
+        })
+        .catch((error) => {
+            console.error('❌ Error cancelling appointment:', error);
+            alert(`Error cancelling appointment: ${error.message}`);
+        });
 }

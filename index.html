@@ -117,11 +117,48 @@
             </div>
         </section>
 
-        <!-- Placeholder for Appointments Section (Issue #15) -->
-        <section class="section" id="appointments">
+        <!-- Appointments Section (Issue #15) -->
+        <section class="appointments-section section" id="appointments">
             <div class="container">
-                <h2>Your Appointments</h2>
-                <p>Coming soon...</p>
+                <div class="section-header">
+                    <h2 class="section-title">Your Appointments</h2>
+                    <p class="section-subtitle">View and manage your upcoming appointments</p>
+                </div>
+
+                <!-- Filter Options -->
+                <div class="appointments-filter">
+                    <button class="filter-btn active" data-filter="all" onclick="filterAppointments('all')">
+                        All Appointments
+                    </button>
+                    <button class="filter-btn" data-filter="pending" onclick="filterAppointments('pending')">
+                        Pending
+                    </button>
+                    <button class="filter-btn" data-filter="upcoming" onclick="filterAppointments('upcoming')">
+                        Upcoming
+                    </button>
+                    <button class="filter-btn" data-filter="past" onclick="filterAppointments('past')">
+                        Past
+                    </button>
+                </div>
+
+                <!-- Appointments Container -->
+                <div class="appointments-list" id="appointments-list">
+                    <!-- Appointment cards will be dynamically inserted here -->
+                </div>
+
+                <!-- Loading State -->
+                <div class="loading hidden" id="appointments-loading">
+                    <div class="loading-spinner"></div>
+                    <p>Loading appointments...</p>
+                </div>
+
+                <!-- Empty State -->
+                <div class="empty-state hidden" id="appointments-empty">
+                    <div class="empty-state-icon">📅</div>
+                    <h3 class="empty-state-title">No Appointments Found</h3>
+                    <p class="empty-state-text">You haven't booked any appointments yet.</p>
+                    <a href="#doctors" class="btn btn-primary">Book Your First Appointment</a>
+                </div>
             </div>
         </section>
 
