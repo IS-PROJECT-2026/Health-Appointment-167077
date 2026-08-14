@@ -162,11 +162,77 @@
             </div>
         </section>
 
-        <!-- Placeholder for Contact Section (Issue #4 footer) -->
-        <section class="section" id="contact">
+        <!-- Contact Section -->
+        <section class="contact-section section" id="contact">
             <div class="container">
-                <h2>Contact Us</h2>
-                <p>Coming soon...</p>
+                <div class="section-header">
+                    <h2 class="section-title">Contact Us</h2>
+                    <p class="section-subtitle">Have a question? Send us a message and we'll get back to you soon</p>
+                </div>
+
+                <div class="contact-form-container">
+                    <form class="contact-form" id="contact-form">
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label for="contact-name" class="form-label">Your Name</label>
+                                <input 
+                                    type="text" 
+                                    id="contact-name" 
+                                    class="form-input" 
+                                    placeholder="John Doe"
+                                    required>
+                            </div>
+
+                            <div class="form-group">
+                                <label for="contact-email" class="form-label">Email Address</label>
+                                <input 
+                                    type="email" 
+                                    id="contact-email" 
+                                    class="form-input" 
+                                    placeholder="john@example.com"
+                                    required>
+                            </div>
+                        </div>
+
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label for="contact-phone" class="form-label">Phone Number</label>
+                                <input 
+                                    type="tel" 
+                                    id="contact-phone" 
+                                    class="form-input" 
+                                    placeholder="(555) 123-4567"
+                                    required>
+                            </div>
+
+                            <div class="form-group">
+                                <label for="contact-subject" class="form-label">Subject</label>
+                                <input 
+                                    type="text" 
+                                    id="contact-subject" 
+                                    class="form-input" 
+                                    placeholder="How can we help you?"
+                                    required>
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="contact-message" class="form-label">Message</label>
+                            <textarea 
+                                id="contact-message" 
+                                class="form-input form-textarea" 
+                                rows="6"
+                                placeholder="Tell us more about your inquiry..."
+                                required></textarea>
+                        </div>
+
+                        <div class="form-actions-center">
+                            <button type="submit" class="btn btn-primary">
+                                Send Message
+                            </button>
+                        </div>
+                    </form>
+                </div>
             </div>
         </section>
     </main>

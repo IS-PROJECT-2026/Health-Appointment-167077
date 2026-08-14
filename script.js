@@ -767,6 +767,9 @@ document.addEventListener('DOMContentLoaded', function() {
     // Setup real-time field validation
     setupFieldValidation();
     
+    // Setup contact form handler
+    setupContactForm();
+    
     // Setup confirmation modal close handlers
     const confirmationModalOverlay = document.getElementById('confirmation-modal-overlay');
     const confirmationModalClose = document.getElementById('confirmation-modal-close');
@@ -1419,4 +1422,47 @@ function cancelAppointment(appointmentId) {
             console.error('❌ Error cancelling appointment:', error);
             alert(`Error cancelling appointment: ${error.message}`);
         });
+}
+
+// ===================================
+// Contact Form Functions
+// ===================================
+
+/**
+ * Setup contact form submission handler
+ */
+function setupContactForm() {
+    const contactForm = document.getElementById('contact-form');
+    
+    if (!contactForm) {
+        return;
+    }
+    
+    contactForm.addEventListener('submit', function(e) {
+        e.preventDefault();
+        
+        // Get form data
+        const formData = {
+            name: document.getElementById('contact-name').value.trim(),
+            email: document.getElementById('contact-email').value.trim(),
+            phone: document.getElementById('contact-phone').value.trim(),
+            subject: document.getElementById('contact-subject').value.trim(),
+            message: document.getElementById('contact-message').value.trim(),
+            timestamp: Date.now()
+        };
+        
+        console.log('Contact form submitted:', formData);
+        
+        // Show success message
+        alert('✅ Thank you for contacting us!\n\nWe have received your message and will get back to you within 24 hours.\n\nFor urgent matters, please call us at +1 (555) 123-4567.');
+        
+        // Reset form
+        contactForm.reset();
+        
+        // Optional: Save to Firebase (uncomment if you want to store contact form submissions)
+        // const contactRef = database.ref('contacts').push();
+        // contactRef.set(formData)
+        //     .then(() => console.log('Contact form saved to Firebase'))
+        //     .catch((error) => console.error('Error saving contact form:', error));
+    });
 }
