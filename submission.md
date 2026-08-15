@@ -2,9 +2,9 @@
 
 ## 1. Student Details
 
-- **Full Name:** [Your Name Here]
-- **GitHub Username:** [Your Username Here]
-- **Email:** [Your Student Email Here]
+- **Full Name:** Mepani Bhavin Ramesh 
+- **GitHub Username:** quantanmreaper
+- **Email:** bhavin.mepani@strathmore.edu
 
 ---
 
@@ -102,21 +102,24 @@ You must engineer **three merge conflicts**, each triggered by a **different cau
 #### Step 1: Generating the Clash
 *Screenshot showing the merge attempt and the conflict warning.*
 
-[PASTE SCREENSHOT OF ATTEMPTED MERGE / TERMINAL WARNING HERE]
+<img width="1022" height="218" alt="one" src="https://github.com/user-attachments/assets/3a0b13f5-f4fd-4db6-b478-af65fd1ca282" />
+
 
 * **Caption:** Attempted to merge branch `feature-conflict-demo-2` into `main`. Both branches had modified the exact same lines in the Features section of README.md. Git detected the conflicting changes and halted the automatic merge with the warning "CONFLICT (content): Merge conflict in README.md" and "Automatic merge failed; fix conflicts and then commit the result."
 
 #### Step 2: Inside the Code Editor (Conflict Markers)
 *Screenshot showing the raw, unresolved conflict markers (`<<<<<<< HEAD`, `=======`, `>>>>>>>`) in your editor.*
 
-[PASTE SCREENSHOT OF RAW CONFLICT MARKERS HERE]
+<img width="1293" height="843" alt="two_conflict_markers" src="https://github.com/user-attachments/assets/35f79da9-8b7a-4f25-a783-b11f1e9a1ad8" />
+
 
 * **Caption:** The Features section in README.md showed conflict markers with three versions: HEAD (current main branch) contained enhanced, detailed descriptions with comprehensive form validation and advanced filtering options; the original version had simple feature descriptions; and feature-conflict-demo-2 (incoming change) had simplified, concise descriptions. The dispute occurred because both branches rewrote all six feature bullet points differently. I chose to keep the HEAD version because it provided more professional, detailed, and informative descriptions that better communicate the project's capabilities.
 
 #### Step 3: Resolution & Clean Merge
 *Screenshot of your clean Git history or completed PR showing the conflict was resolved and merged.*
 
-[PASTE SCREENSHOT OF CLEAN RESOLUTION HERE]
+<img width="966" height="205" alt="three_gitlog" src="https://github.com/user-attachments/assets/8a92f995-effc-4b16-8faa-07a637d7c1f5" />
+
 
 * **Caption:** The Git history graph shows the successful resolution with merge commit `4a8074d "Merge feature-conflict-demo-2: resolve conflict in Features section"`. Both feature branches are now cleanly integrated into the main branch. The conflict was resolved by selecting the more detailed feature descriptions, and the merge was completed without any remaining conflicts. The graph clearly shows the divergent branch history and their convergence into a unified main branch.
 
