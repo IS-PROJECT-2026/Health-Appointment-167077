@@ -134,12 +134,14 @@ function loadDoctors() {
     console.log('Loading doctors from Firebase...');
     
     const doctorsContainer = document.getElementById('doctors-container');
+    const skeletonElement = document.getElementById('doctors-skeleton');
     const loadingElement = document.getElementById('doctors-loading');
     const emptyElement = document.getElementById('doctors-empty');
     
-    // Show loading state
-    loadingElement.classList.remove('hidden');
+    // Show skeleton loader
+    skeletonElement.classList.remove('hidden');
     doctorsContainer.classList.add('hidden');
+    loadingElement.classList.add('hidden');
     emptyElement.classList.add('hidden');
     
     // Reference to doctors in Firebase (at root level)
@@ -149,8 +151,8 @@ function loadDoctors() {
         .then((snapshot) => {
             const doctorsData = snapshot.val();
             
-            // Hide loading
-            loadingElement.classList.add('hidden');
+            // Hide skeleton
+            skeletonElement.classList.add('hidden');
             
             if (doctorsData && typeof doctorsData === 'object') {
                 const doctorKeys = Object.keys(doctorsData);
@@ -184,8 +186,8 @@ function loadDoctors() {
             }
         })
         .catch((error) => {
-            // Hide loading
-            loadingElement.classList.add('hidden');
+            // Hide skeleton
+            skeletonElement.classList.add('hidden');
             
             // Show error message
             doctorsContainer.innerHTML = `
@@ -956,19 +958,21 @@ function formatTime(time) {
 }
 
 /**
- * View appointments (placeholder for Issue #15)
+ * View appointments (called from confirmation modal)
  */
 function viewAppointments() {
     closeConfirmationModal();
     
-    // Scroll to appointments section
-    const appointmentsSection = document.getElementById('appointments');
-    if (appointmentsSection) {
-        appointmentsSection.scrollIntoView({ behavior: 'smooth' });
-    }
-    
     // Reload appointments to show the latest
     loadAppointments();
+    
+    // Scroll to appointments section
+    setTimeout(() => {
+        const appointmentsSection = document.getElementById('appointments');
+        if (appointmentsSection) {
+            appointmentsSection.scrollIntoView({ behavior: 'smooth' });
+        }
+    }, 100);
 }
 
 // ===================================
@@ -986,12 +990,14 @@ function loadAppointments() {
     console.log('Loading appointments from Firebase...');
     
     const appointmentsList = document.getElementById('appointments-list');
+    const skeletonElement = document.getElementById('appointments-skeleton');
     const loadingElement = document.getElementById('appointments-loading');
     const emptyElement = document.getElementById('appointments-empty');
     
-    // Show loading state
-    loadingElement.classList.remove('hidden');
+    // Show skeleton loader
+    skeletonElement.classList.remove('hidden');
     appointmentsList.innerHTML = '';
+    loadingElement.classList.add('hidden');
     emptyElement.classList.add('hidden');
     
     // Reference to appointments in Firebase
@@ -1001,8 +1007,8 @@ function loadAppointments() {
         .then((snapshot) => {
             const appointmentsData = snapshot.val();
             
-            // Hide loading
-            loadingElement.classList.add('hidden');
+            // Hide skeleton
+            skeletonElement.classList.add('hidden');
             
             if (appointmentsData && typeof appointmentsData === 'object') {
                 const appointmentKeys = Object.keys(appointmentsData);
@@ -1040,8 +1046,8 @@ function loadAppointments() {
             }
         })
         .catch((error) => {
-            // Hide loading
-            loadingElement.classList.add('hidden');
+            // Hide skeleton
+            skeletonElement.classList.add('hidden');
             
             // Show error message
             appointmentsList.innerHTML = `
