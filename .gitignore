@@ -1,6 +1,3 @@
-# Project Guide Files (local reference only - not pushed to repo)
-docs/
-
 # Firebase Config (if using environment variables)
 .env
 .env.local
