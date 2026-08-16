@@ -12,7 +12,7 @@
 ## 2. Deployed Project Link
 
 - **Live GitHub Pages URL:**  https://is-project-2026.github.io/Health-Appointment-167077/
-- **Live GitHub Pages URL:** https://github.com/IS-PROJECT-2026/Health-Appointment-167077
+- **Repository URL:** https://github.com/IS-PROJECT-2026/Health-Appointment-167077
 
 ---
 
@@ -62,50 +62,52 @@ Demonstrate your workflow mechanics by embedding your screenshots below.
 *Provide screenshots showing your milestone and issue tracking progress from initial setup to current state.*
 
 #### Before (Initial Setup):
-[PASTE YOUR INITIAL MILESTONE SCREENSHOT DIRECTLY HERE]
+<img width="1912" height="893" alt="Before_Milestones" src="https://github.com/user-attachments/assets/e924ea27-abb4-4e38-ab7a-0774b33c3180" />
 
 * **Caption:** Initial milestone setup showing the project structure at the beginning with issues being created and organized.
 
 #### After (Current State - Milestone Overview):
-[PASTE YOUR MILESTONE OVERVIEW SCREENSHOT DIRECTLY HERE]
+<img width="1530" height="706" alt="After_Milestone" src="https://github.com/user-attachments/assets/4ed68868-b3b7-4bec-9332-6923ef9672bf" />
 
 * **Caption:** Current milestone progress showing completed and in-progress issues with clear tracking and organization.
 
 #### After (Current State - Closed Issues):
-[PASTE YOUR CLOSED ISSUES SCREENSHOT DIRECTLY HERE]
+<img width="1556" height="883" alt="ISSUES" src="https://github.com/user-attachments/assets/f77a43d3-3225-4ac2-a947-480983bd962e" />
 
-* **Caption:** Closed issues tab showing completed tasks that were successfully linked to milestones and merged into the project.
+* **Caption:** Closed issues tab showing completed all tasks that were successfully linked to milestones and merged into the project.
 
 ### B. Project Board
 *Provide screenshots of your GitHub Project Board showing progression from initial setup to completion.*
 
 #### Before (Initial Setup):
-[PASTE YOUR INITIAL PROJECT BOARD SCREENSHOT DIRECTLY HERE]
+<img width="1910" height="870" alt="Before_ProjectBoard1" src="https://github.com/user-attachments/assets/2a7c6a11-4135-4d62-a7a0-07114751a706" />
 
 * **Caption:** Project board at the start showing issues distributed across To Do and In Progress columns as work began.
 
 #### After (Current State):
-[PASTE YOUR CURRENT PROJECT BOARD SCREENSHOT DIRECTLY HERE]
+<img width="1382" height="773" alt="After_ProjectBoard" src="https://github.com/user-attachments/assets/6f0daeba-b395-4d5f-a34f-7385d57e2ea3" />
 
 * **Caption:** Final project board state with all issues moved to Done column, demonstrating complete workflow tracking and task completion.
 
 ### C. Branching Architecture
 *Provide a screenshot showing your local or remote Git branch list, highlighting your use of conventional, issue-linked naming patterns (e.g., `feat/`, `fix/`, `style/`).*
 
-[PASTE YOUR BRANCHING SCREENSHOT DIRECTLY HERE]
+<img width="1662" height="840" alt="branch_one" src="https://github.com/user-attachments/assets/15f29b0b-c4a6-4b63-b2a2-ed9d7dc5620a" />
+<img width="1602" height="403" alt="branch_two" src="https://github.com/user-attachments/assets/7d6c9375-eac3-4d23-91cd-f848f5136fcb" />
+<img width="1613" height="322" alt="branch_three" src="https://github.com/user-attachments/assets/0162e200-df7c-4a50-9435-56b5b10b7aea" />
 
 * **Caption:** Branch list showing consistent use of conventional prefixes (feat/, fix/, style/, refactor/. docs/, chore/) with issue-linked naming.
 
 ### D. Pull Requests & Traceability
-*Provide screenshots of Pull Requests (both open and completed) that clearly show issue linkage and traceability.*
+*Provide a screenshot of a completed or open Pull Request (PR) on GitHub that clearly shows it is linked to a related development issue.*
 
 #### Open Pull Request:
-[PASTE YOUR OPEN PR SCREENSHOT DIRECTLY HERE]
+<img width="1297" height="828" alt="Open Pull Request" src="https://github.com/user-attachments/assets/33727d82-b266-430f-b7b3-3f970745298b" />
 
 * **Caption:** Open PR with clear description and issue linkage (Closes #7) showing traceability before merge.
 
 #### Completed Pull Request:
-[PASTE YOUR MERGED PR SCREENSHOT DIRECTLY HERE]
+<img width="1130" height="708" alt="ClosedPullRequest" src="https://github.com/user-attachments/assets/76da0ad5-fffd-41a3-ab6c-e2516204ef85" />
 
 * **Caption:** Merged PR demonstrating successful completion with proper issue closure (Closes #2) and commit integration.
 
