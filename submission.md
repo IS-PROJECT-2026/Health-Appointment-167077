@@ -155,25 +155,27 @@ You must engineer **three merge conflicts**, each triggered by a **different cau
 
 ### Conflict 2 — Different Cause
 
-**What cause did you use?** [Name the type of conflict cause — must be different from Conflict 1]
+**What cause did you use?** Proximity Conflict
 
-**Why does this cause trigger a conflict?** [1–2 sentences explaining the mechanism]
+**Why does this cause trigger a conflict?** Both branches modified lines very close to each other in the same section of code (the header comments in script.js). Even though the exact lines weren't identical, the changes were too close together for Git to automatically determine how to combine them, forcing manual intervention.
 
-[PASTE SCREENSHOT OF CONFLICT MARKERS FOR CONFLICT 2 HERE]
+<img width="1251" height="551" alt="proximityconflict" src="https://github.com/user-attachments/assets/1a29bc81-4f72-4295-a506-8d52ad3ed054" />
 
-* **Caption:** [Brief description of the conflicting branches and file]
+
+* **Caption:** Proximity conflict in script.js between conflict-2-branch-b (production build header) and conflict-2-branch-a (version 2.0 header) modifying adjacent header comment lines
 
 ---
 
 ### Conflict 3 — Different Cause
 
-**What cause did you use?** [Name the type of conflict cause — must be different from Conflicts 1 and 2]
+**What cause did you use?** Add-Add Conflict
 
-**Why does this cause trigger a conflict?** [1–2 sentences explaining the mechanism]
+**Why does this cause trigger a conflict?** Both branches independently created the same new file (config.js) with completely different content. Git cannot automatically decide which version of the newly created file should be kept, requiring manual resolution to choose or merge the two versions.
 
-[PASTE SCREENSHOT OF CONFLICT MARKERS FOR CONFLICT 3 HERE]
+<img width="1347" height="757" alt="add-add conflict" src="https://github.com/user-attachments/assets/222fdf4e-eb1e-49da-8f2b-2b8090f46f25" />
 
-* **Caption:** [Brief description of the conflicting branches and file]
+
+* **Caption:** Add-add conflict in config.js where conflict-3-branch-b (production config) and conflict-3-branch-a (development config) both created the same file with different configurations
 
 ---
 ##
