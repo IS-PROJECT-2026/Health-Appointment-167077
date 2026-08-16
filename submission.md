@@ -180,7 +180,7 @@ You must engineer **three merge conflicts**, each triggered by a **different cau
 ## 6. Feedback & Evaluation
 
 To help improve this course for future engineering cohorts, please take 2 minutes to fill out the anonymous feedback form. Your honest review helps shape how this program is taught next semester!
-- [ ] **Anonymous Evaluation Form:** [Course & Instructor Evaluation](https://forms.gle/YLybnsyXXErKEg3s9)
+- [✔] **Anonymous Evaluation Form:** [Course & Instructor Evaluation](https://forms.gle/YLybnsyXXErKEg3s9)
 
 ---
  
