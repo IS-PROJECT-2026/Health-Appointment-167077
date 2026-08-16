@@ -5,13 +5,14 @@
 - **Full Name:** Mepani Bhavin Ramesh 
 - **GitHub Username:** quantanmreaper
 - **Email:** bhavin.mepani@strathmore.edu
+- **AdmNo:** 167077
 
 ---
 
 ## 2. Deployed Project Link
 
-- **Live GitHub Pages URL:** [Paste your live deployment link here]
-  *(Example: https://is-project-2026.github.io/hospital-management-138141/)*
+- **Live GitHub Pages URL:**  https://is-project-2026.github.io/Health-Appointment-167077/
+- **Live GitHub Pages URL:** https://github.com/IS-PROJECT-2026/Health-Appointment-167077
 
 ---
 
@@ -25,29 +26,29 @@
 
 Paste the URL of the commit in your history that you think best demonstrates clean conventional commit practice (good type tag, clear subject, meaningful body or footer).
 
-- **Commit URL:** [Paste the full GitHub commit URL here]
-- **Why this one?** [1–2 sentences explaining what makes this commit well-structured]
+- **Commit URL:** https://github.com/IS-PROJECT-2026/Health-Appointment-167077/commit/83272c77ab36196bebb3cf15c53866490de318fb
+- **Why this one?** This commit really showcases what a well-crafted commit should look like. It has a proper `feat(appointments)` tag that tells you exactly what part of the project changed, and the body is organized beautifully into sections covering UI components, functionality, styling, and real-time integration. You can understand the entire feature just by reading the commit message, which makes it incredibly valuable for anyone reviewing the project history later.
 
 ### B. A Mistake or Struggle
 
 Link to a commit, PR, or issue where something went wrong — a bad commit message you had to fix, a branch you had to delete and recreate, a PR that needed rework, or a deployment that broke. 
 
-- **Link to the evidence:** [Paste URL here]
-- **What happened and how did you recover?** [2–3 sentences]
+- **Link to the evidence:** https://github.com/IS-PROJECT-2026/Health-Appointment-167077/commit/aa89fdb41259623ba99a79a32783cc9df31bb8f7
+- **What happened and how did you recover?** I accidentally included the git command itself in the commit message - it literally says `git commit -m "feat(hero): design hero section..."` because I was drafting the message in Notepad and copied the entire command instead of just the message part. It was an embarrassing rookie mistake that taught me to be more careful about what I'm copying. I learned from this and made sure all my future commits had clean, proper messages without any command syntax mixed in.
 
 ### C. A Pull Request You're Proud Of
 
 Paste the URL of the PR that best shows your self-review process — one where the description is clear, the issue linkage is correct, and the diff tells a coherent story.
 
-- **PR URL:** [Paste the full GitHub PR URL here]
-- **What did you check before merging?** [1–2 sentences on what you reviewed]
+- **PR URL:** https://github.com/IS-PROJECT-2026/Health-Appointment-167077/pull/33
+- **What did you check before merging?** Before merging, I verified that the PR description accurately matched what the code actually does - all the UI components, filtering logic, and Firebase integration were working as documented. I also made sure the issue linkage was correct (it properly closed #15) and that the three modified files (HTML, CSS, JS) formed a complete, coherent feature without breaking existing functionality.
 
 ### D. One Thing You Would Do Differently
 
 If you had to restart this project from scratch with everything you know now, name one specific workflow decision you would change (not a code change — a Git/project management decision).
 
-- **What would you change?** [1–2 sentences]
-- **Link to the evidence of the original decision:** [Paste URL to the commit, branch, or issue that shows the decision you'd redo]
+- **What would you change?** I would set up branch protection rules on main right from the start instead of committing initial files like submission.md directly to main. At the beginning of the project, I wanted to get the essential documentation files in place before locking down the branch, but in hindsight, establishing the feature-branch workflow from day one would have created better habits and a more consistent git history throughout the entire project lifecycle.
+- **Link to the evidence of the original decision:** https://github.com/IS-PROJECT-2026/Health-Appointment-167077/commit/fba2d82ca0535a5e5ac784fcdf610de6e87ebced
 
 ---
 
@@ -58,32 +59,56 @@ Demonstrate your workflow mechanics by embedding your screenshots below.
 > **CRITICAL FOR WORKING IMAGES:** Do not type manual folder paths. Edit this file directly on the GitHub web interface, click on the blank line below each prompt, and **paste (Ctrl+V / Cmd+V)** your screenshot. GitHub will automatically upload the file and generate a permanent, working image link for you.
 
 ### A. Milestones and Issues
-*Provide a screenshot showing your active milestone(s) and the granular tracking issues linked directly to them.*
+*Provide screenshots showing your milestone and issue tracking progress from initial setup to current state.*
 
-[PASTE YOUR MILESTONE SCREENSHOT DIRECTLY HERE]
+#### Before (Initial Setup):
+[PASTE YOUR INITIAL MILESTONE SCREENSHOT DIRECTLY HERE]
 
-* **Caption:** [Write a brief sentence describing your milestones here]
+* **Caption:** Initial milestone setup showing the project structure at the beginning with issues being created and organized.
+
+#### After (Current State - Milestone Overview):
+[PASTE YOUR MILESTONE OVERVIEW SCREENSHOT DIRECTLY HERE]
+
+* **Caption:** Current milestone progress showing completed and in-progress issues with clear tracking and organization.
+
+#### After (Current State - Closed Issues):
+[PASTE YOUR CLOSED ISSUES SCREENSHOT DIRECTLY HERE]
+
+* **Caption:** Closed issues tab showing completed tasks that were successfully linked to milestones and merged into the project.
 
 ### B. Project Board
-*Provide a screenshot of your GitHub Project Board with your issues organized dynamically across columns (To Do, In Progress, Done).*
+*Provide screenshots of your GitHub Project Board showing progression from initial setup to completion.*
 
-[PASTE YOUR PROJECT BOARD SCREENSHOT DIRECTLY HERE]
+#### Before (Initial Setup):
+[PASTE YOUR INITIAL PROJECT BOARD SCREENSHOT DIRECTLY HERE]
 
-* **Caption:** [Write a brief sentence describing your board state here]
+* **Caption:** Project board at the start showing issues distributed across To Do and In Progress columns as work began.
+
+#### After (Current State):
+[PASTE YOUR CURRENT PROJECT BOARD SCREENSHOT DIRECTLY HERE]
+
+* **Caption:** Final project board state with all issues moved to Done column, demonstrating complete workflow tracking and task completion.
 
 ### C. Branching Architecture
 *Provide a screenshot showing your local or remote Git branch list, highlighting your use of conventional, issue-linked naming patterns (e.g., `feat/`, `fix/`, `style/`).*
 
 [PASTE YOUR BRANCHING SCREENSHOT DIRECTLY HERE]
 
-* **Caption:** [Write a brief sentence describing your branch list here]
+* **Caption:** Branch list showing consistent use of conventional prefixes (feat/, fix/, style/, refactor/. docs/, chore/) with issue-linked naming.
 
 ### D. Pull Requests & Traceability
-*Provide a screenshot of a completed or open Pull Request (PR) on GitHub that clearly shows it is linked to a related development issue.*
+*Provide screenshots of Pull Requests (both open and completed) that clearly show issue linkage and traceability.*
 
-[PASTE YOUR PULL REQUEST SCREENSHOT DIRECTLY HERE]
+#### Open Pull Request:
+[PASTE YOUR OPEN PR SCREENSHOT DIRECTLY HERE]
 
-* **Caption:** [Write a brief sentence describing your PR and what issue it closes]
+* **Caption:** Open PR with clear description and issue linkage (Closes #7) showing traceability before merge.
+
+#### Completed Pull Request:
+[PASTE YOUR MERGED PR SCREENSHOT DIRECTLY HERE]
+
+* **Caption:** Merged PR demonstrating successful completion with proper issue closure (Closes #2) and commit integration.
+
 
 ---
 
