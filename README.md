@@ -1,3 +1,8 @@
+### **Admission Number:** 167077  
+### **GitHub:** [@quantanmreaper](https://github.com/quantanmreaper)  
+### **Course:** IS PROJECT 2026
+### **LiveDemo** https://is-project-2026.github.io/Health-Appointment-167077/
+
 # Health Appointment Booking System
 
 An online healthcare platform for booking appointments with doctors. Built with HTML, CSS, JavaScript, and Firebase Realtime Database.
@@ -129,11 +134,6 @@ Closes #14"
 - `filterAppointments()` - Filter appointments by status/date
 - `cancelAppointment()` - Update appointment status to cancelled
 
-## Author
-
-**Admission Number:** 167077  
-**GitHub:** [@quantanmreaper](https://github.com/quantanmreaper)  
-**Course:** IS PROJECT 2026
 
 ## License
 
